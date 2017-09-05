@@ -1,4 +1,4 @@
-## test_tool
+## appium
 ### 一、环境搭建
 #### 1. [Mac上搭建python+appium](http://www.cnblogs.com/tangdongchu/p/4432808.html)
 #### 2. [Windows上搭建python+appium](https://testerhome.com/topics/646)

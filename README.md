@@ -1,7 +1,29 @@
-## appium
+## test_tool
 ### 一、环境搭建
-#### 1. [Mac上搭建python+appium](http://www.cnblogs.com/tangdongchu/p/4432808.html)
+#### 1. [Mac上搭建python+appium](http://www.cnblogs.com/tangdongchu/p/4432808.html)、[Mac环境参考2](http://blog.csdn.net/liuchunming033/article/details/51544633)
 #### 2. [Windows上搭建python+appium](https://testerhome.com/topics/646)
+#### 3. Mac上搭建环境防踩坑
+(1)通过brew安装node（尽量不要手动下载安装）:
+ * 安装:brew install node
+ * 查看node版本：node -v
+
+(2)安装appium：
+ * npm install -g cnpm --registry=https://registry.npm.taobao.org
+ * cnpm install -g appium --no-cache(https://testerhome.com/topics/6230)
+
+(3)appium端口占用：
+ * 解决：killall -9 node
+
+(4)Carthage was NOT found!
+ * 解决：brew install carthage
+
+(5)破解PythonCharm：
+ * 配置hosts：0.0.0.0 account.jetbrains.com
+ * [获取注册码](http://idea.lanyus.com/)
+
+(6)下载Chrome驱动
+ * [ChromeDriver映射表](http://blog.csdn.net/huilan_same/article/details/51896672)
+ * 将下载好的驱动放在Mac的/usr/local/bin目录下
 ### 二、工具介绍
 #### 1. [python 的设计模式](http://www.cnblogs.com/wuyuegb2312/archive/2013/04/09/3008320.html)本工具使用的是简单工厂模式以及建造者模式
 #### 2. 框架介绍
@@ -29,6 +51,7 @@
    * appium -a 0.0.0.0 -p 4725 --session-override
    
  2.selenium
+   * 下载selenium-server-standalone.jar
    * java -jar (selenium-server-standalone-2.45.0.jar路径) -role hub
    * java -jar (selenium-server-standalone-2.45.0.jar路径) -hub http://localhost:4444/grid/register -browser "browserName=chrome,version=（chrome version）,platform=MAC" -role webdriver
 ### 五、注意

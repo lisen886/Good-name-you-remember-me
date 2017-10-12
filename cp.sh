@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "hello lisen! this is your cp shell script"
+echo -e "\033[33m hello lisen! this is your cp shell script \033[0m"
 read -p "input DevDir:" DevDir
 read -p "input GithubDir:" GithubDir
 rm -r $GithubDir
@@ -19,6 +19,7 @@ git status
 fi
 done
 git status
+IFS="|"
 read -p "input commitString:" commitString
 git commit -m $commitString
 read -p "input remote branch:" remote_branch

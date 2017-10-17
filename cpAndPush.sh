@@ -2,8 +2,7 @@
 echo -e "\033[33m hello lisen! this is your cp shell script \033[0m"
 read -p "input DevDir:" DevDir
 read -p "input GithubDir:" GithubDir
-rm -r $GithubDir
-cp -r $DevDir $GithubDir
+cp -r $DevDir/. $GithubDir
 cd $GithubDir
 git pull
 git status

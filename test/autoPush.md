@@ -1,5 +1,5 @@
-###test auto push
-####cpAndPush.sh使用方法：
+##test auto push
+###cpAndPush.sh使用方法：
 * cd cpAndPush.sh的路径下
 * chmod +x ./cpAndPush.sh 第一次运行需要赋予shell脚本权限
 - ./cpAndPush.sh运行脚本

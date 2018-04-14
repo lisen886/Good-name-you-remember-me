@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os,subprocess,platform,re,time
 PATH = lambda p: os.path.abspath(p)
-logName = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) + ".txt"
 
 # 判断系统类型，windows使用findstr，linux使用grep
 system = platform.system()
@@ -98,34 +97,61 @@ class performance:
         levels = self.shell("dumpsys battery | %s level" %find_util).stdout.read()
         currenLevel = levels.split("\n")[0]
         level = currenLevel.split(": ")[-1]
-        print "current power level:%s%%"%int(level)
+        print ("current power level:%s%%"%int(level))
         return int(level)
+    def get_battery_temp(self):
+        """
+        获取电池温度
+        """
+        temp = self.shell("dumpsys battery | %s temperature" %find_util).stdout.read().split(": ")[-1]
+        return int(temp) / 10.0
     """
     summary: 获取当前APP cpu百分比
     return:
     author: lisen sui
     """
     def get_cpu(self, package_name):
-        cmdCPU = '''top -n 1|%s %s|awk -F'%%' '{print $1}' ''' % (find_util, package_name)
-        agora = self.shell(cmdCPU)
-        str = agora.stdout.read()
-        list = str.split(" ")
-        num = len(list)
-        cpu = float(list[num - 1])
-        print('cpu: %d%%' % float(cpu))
-        return cpu
+        if package_name == 'com.tencent.mm':
+            WeChatPNTool = 'com.tencent.mm:tools'
+            WeChatcmdCPU = '''top -n 1|%s %s|awk -F'%%' '{print $1}' ''' % (find_util, WeChatPNTool)
+            agora = self.shell(WeChatcmdCPU)
+            WeChatstr = agora.stdout.read()
+            WeChatlist = WeChatstr.split(" ")
+            WeChatnum = len(WeChatlist)
+            WeChatcpu = float(WeChatlist[WeChatnum - 1])
+            print('WeChatToolsCPU: %d%%' % float(WeChatcpu))
+            return WeChatcpu
+        else:
+            cmdCPU = '''top -n 1|%s %s|awk -F'%%' '{print $1}' ''' % (find_util, package_name)
+            agora = self.shell(cmdCPU)
+            str = agora.stdout.read()
+            list = str.split(" ")
+            num = len(list)
+            cpu = float(list[num - 1])
+            print('cpu: %d%%' % float(cpu))
+            return cpu
     """
     summary: 获取当前APP内存
     return:
     author: lisen sui
     """
     def get_memory(self, package_name):
+        cmdIfMem = '''dumpsys meminfo %s|%s TOTAL:''' % (package_name, find_util)
         cmdMemory = '''dumpsys meminfo %s|%s TOTAL:|awk -F' ' '{print $2}' ''' % (package_name, find_util)
-        agora = self.shell(cmdMemory)
-        memory = int(agora.stdout.read())
-        print('memory: %d' % (memory) + 'KB')
-        print('内存使用:%dMB' % ((memory) / 1024))
-        return memory
+        cmdMemory2 = '''dumpsys meminfo %s|%s TOTAL|awk -F' ' '{print $2}' ''' % (package_name, find_util)
+        agoraIf = self.shell(cmdIfMem).stdout.read()
+        if "TOTAL:" in agoraIf:
+            agora = self.shell(cmdMemory)
+            memory = int(agora.stdout.read())
+            print('memory: %d' % (memory) + 'KB')
+            print('内存使用:%dMB' % ((memory) / 1024))
+            return memory
+        else:
+            agora2 = self.shell(cmdMemory2)
+            memory2 = int(agora2.stdout.read())
+            print('memory: %d' % (memory2) + 'KB')
+            print('内存使用:%dMB' % ((memory2) / 1024))
+            return memory2
     """
     summary: 获取全部内存
     return:
@@ -146,7 +172,7 @@ class performance:
     def get_memory_percent(self, package_name):
         try:
             percent =float(self.get_memory(package_name)/float(self.get_memory_total()) * 100)
-            print "memory percent is : %.2f%%"%percent
+            print ("memory percent is : %.2f%%"%percent)
             return percent
         except:
             return None
@@ -286,7 +312,6 @@ class performance:
         last_rx = self.get_rx(uid)
         speed_rx = last_rx-first_rx
         print ("speed_rx :%sKb/s" % (speed_rx*8))
-        self.log("speed_rx :%sKb/s" % (speed_rx*8))
         return float(speed_rx*8)
     def get_network_speed_tx(self,uid):
         first_tx = self.get_tx(uid)
@@ -294,7 +319,6 @@ class performance:
         last_tx = self.get_tx(uid)
         speed_tx = last_tx-first_tx
         print ("speed_tx :%sKb/s" % (speed_tx*8))
-        self.log("speed_tx :%sKb/s" % (speed_tx*8))
         return float(speed_tx*8)
     '''
     死循环打印当前的上行下行网速
@@ -312,7 +336,8 @@ class performance:
     '''
     求一段时间内的平均网速
     '''
-    def get_average_speed_rx_tx(self,num,uid):
+    def get_average_speed_rx_tx(self,uid):
+        num = 10
         speed_rx_total = 0
         speed_tx_total = 0
         for i in range(0,num):
@@ -322,14 +347,3 @@ class performance:
             speed_tx_total += speed_tx
         print ("average_speed_rx is:%.2fKb/s"%(speed_rx_total/num))
         print ("average_speed_tx is:%.2fKb/s"%(speed_tx_total/num))
-        self.log("average_speed_rx is:%.2fKb/s"%(speed_rx_total/num))
-        self.log("average_speed_tx is:%.2fKb/s"%(speed_tx_total/num))
-
-    def log(self,msg):
-        currentPath = os.path.abspath('.')
-        logPath = currentPath + "/performanceLog"
-        if not os.path.exists(logPath):
-            os.makedirs(logPath)
-        with open(logPath + '/' + logName, 'a') as f:
-                f.write(msg+'\n')
-        f.close()

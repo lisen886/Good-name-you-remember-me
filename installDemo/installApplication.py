@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import tkinter as tk
 from tkinter import ttk
+import tkinter.messagebox
 import os,re,sys
 if sys.version < "3":
     import urllib2
@@ -78,22 +79,28 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
             try:
                 state = execInstallCMD(packagePWD)
                 if state == False:
-                    installChromeAction.configure(text='Install fail ')
+                    tkinter.messagebox.showerror('错误', '安装失败')
+                    # installChromeAction.configure(text='Install fail ')
                 else:
-                    installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
-                    installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+                    tkinter.messagebox.showinfo('提示', '安装成功')
+                    # installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
+                    # installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
             except:
-                installChromeAction.configure(text='Install fail ')
+                tkinter.messagebox.showerror('错误', '安装失败')
+                # installChromeAction.configure(text='Install fail ')
         else:
             try:
                 state = execInstallCMD(sendChromeAddress.get())
                 if state == False:
-                    installChromeAction.configure(text='Install fail ')
+                    tkinter.messagebox.showerror('错误', '安装失败')
+                    # installChromeAction.configure(text='Install fail ')
                 else:
-                    installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
-                    installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+                    tkinter.messagebox.showinfo('提示', '安装成功')
+                    # installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
+                    # installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
             except:
-                installChromeAction.configure(text='Install fail ')
+                tkinter.messagebox.showerror('错误', '安装失败')
+                # installChromeAction.configure(text='Install fail ')
     else:
         if ChromeVersionList.get() in chrome:
             versionPWD = chrome[ChromeVersionList.get()]
@@ -101,16 +108,21 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 try:
                     state = execInstallCMD(versionPWD)
                     if state == False:
-                        installChromeAction.configure(text='Install fail ')
+                        tkinter.messagebox.showerror('错误', '安装失败')
+                        # installChromeAction.configure(text='Install fail ')
                     else:
-                        installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
-                        installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+                        tkinter.messagebox.showinfo('提示', '安装成功')
+                        # installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
+                        # installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
                 except:
-                    installChromeAction.configure(text='Install fail ')
+                    tkinter.messagebox.showerror('错误', '安装失败')
+                    # installChromeAction.configure(text='Install fail ')
             else:
-                installChromeAction.configure(text='This version of the file does not exist.')
+                tkinter.messagebox.showwarning('警告', '这个版本的安装包不存在')
+                # installChromeAction.configure(text='This version of the file does not exist.')
         else:
-            installChromeAction.configure(text='The dict is missing this value')
+            tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
+            # installChromeAction.configure(text='The dict is missing this value')
 def clickMeInstallFirefox():  # 当acction被点击时,该函数则生效
     if sendFirefoxAddress.get() != "":
         if re.match("http",sendFirefoxAddress.get()):
@@ -118,22 +130,28 @@ def clickMeInstallFirefox():  # 当acction被点击时,该函数则生效
             try:
                 state = execInstallCMD(packagePWD)
                 if state == False:
-                    installFirefoxAction.configure(text='Install fail ')
+                    tkinter.messagebox.showerror('错误', '安装失败')
+                    # installFirefoxAction.configure(text='Install fail ')
                 else:
-                    installFirefoxAction.configure(text='Install successed ')  # 设置button显示的内容
-                    installFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+                    tkinter.messagebox.showinfo('提示', '安装成功')
+                    # installFirefoxAction.configure(text='Install successed ')  # 设置button显示的内容
+                    # installFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
             except:
-                installFirefoxAction.configure(text='Install fail ')
+                # installFirefoxAction.configure(text='Install fail ')
+                tkinter.messagebox.showerror('错误', '安装失败')
         else:
             try:
                 state = execInstallCMD(sendFirefoxAddress.get())
                 if state == False:
-                    installFirefoxAction.configure(text='Install fail ')
+                    # installFirefoxAction.configure(text='Install fail ')
+                    tkinter.messagebox.showerror('错误', '安装失败')
                 else:
-                    installFirefoxAction.configure(text='Install successed ')  # 设置button显示的内容
-                    installFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+                    # installFirefoxAction.configure(text='Install successed ')  # 设置button显示的内容
+                    # installFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+                    tkinter.messagebox.showinfo('提示', '安装成功')
             except:
-                installFirefoxAction.configure(text='Install fail ')
+                # installFirefoxAction.configure(text='Install fail ')
+                tkinter.messagebox.showerror('错误', '安装失败')
     else:
         if FirefoxVersionList.get() in firefox:
             versionPWD = firefox[FirefoxVersionList.get()]
@@ -141,32 +159,41 @@ def clickMeInstallFirefox():  # 当acction被点击时,该函数则生效
                 try:
                     state = execInstallCMD(versionPWD)
                     if state == False:
-                        installFirefoxAction.configure(text='Install fail ')
+                        # installFirefoxAction.configure(text='Install fail ')
+                        tkinter.messagebox.showerror('错误', '安装失败')
                     else:
-                        installFirefoxAction.configure(text='Install successed ')  # 设置button显示的内容
-                        installFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+                        tkinter.messagebox.showinfo('提示', '安装成功')
+                        # installFirefoxAction.configure(text='Install successed ')  # 设置button显示的内容
+                        # installFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
                 except:
-                    installFirefoxAction.configure(text='Install fail ')
+                    # installFirefoxAction.configure(text='Install fail ')
+                    tkinter.messagebox.showerror('错误', '安装失败')
             else:
-                installFirefoxAction.configure(text='This version of the file does not exist.')
+                tkinter.messagebox.showwarning('警告', '这个版本的安装包不存在')
+                # installFirefoxAction.configure(text='This version of the file does not exist.')
         else:
-            installFirefoxAction.configure(text='The dict is missing this value')
+            tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
+            # installFirefoxAction.configure(text='The dict is missing this value')
 
 def clickMeUninstallChrome():
     state = execUninstallChromeCMD()
     if state == False:
-        uninstallChromeAction.configure(text='Uninstall fail ')
+        # uninstallChromeAction.configure(text='Uninstall fail ')
+        tkinter.messagebox.showerror('错误', '卸载失败')
     else:
-        uninstallChromeAction.configure(text='Uninstall successed ')  # 设置button显示的内容
-        uninstallChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+        tkinter.messagebox.showinfo('提示', '卸载成功')
+        # uninstallChromeAction.configure(text='Uninstall successed ')  # 设置button显示的内容
+        # uninstallChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
 
 def clickMeUninstallFirefox():
     state = execUninstallFirefoxCMD()
     if state == False:
-        uninstallFirefoxAction.configure(text='Uninstall fail ')
+        tkinter.messagebox.showerror('错误', '卸载失败')
+        # uninstallFirefoxAction.configure(text='Uninstall fail ')
     else:
-        uninstallFirefoxAction.configure(text='Uninstall successed ')  # 设置button显示的内容
-        uninstallFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+        tkinter.messagebox.showinfo('提示', '卸载成功')
+        # uninstallFirefoxAction.configure(text='Uninstall successed ')  # 设置button显示的内容
+        # uninstallFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
 
 win = tk.Tk()
 win.title("Install Application")  # 添加标题

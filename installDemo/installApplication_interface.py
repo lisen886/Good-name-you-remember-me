@@ -9,7 +9,7 @@ else:
     # 因为打包程序没法使用urllib，改用urllib2
     from urllib import request
 chrome = {
-    "49":r".\49.0.2623.75_chrome64_stable_windows_installer.exe",
+    "49":r".\chrome\49.0.2623.75_chrome64_stable_windows_installer.exe",
     "58":r".\58.0.3029.81_chrome64_stable_windows_installer.exe",
     "59":r".\59.0.3071.25_chrome64_dev_windows_installer.exe",
     "60":r".\60.0.3112.113_chrome64_stable_windows_installer.exe",
@@ -21,7 +21,7 @@ chrome = {
     "66":r".\66.0.3359.139_chrome64_stable_windows_installer.exe",
     "67":r".\67.0.3396.87_chrome64_stable_windows_installer.exe",
     "68":r".\68.0.3440.106_chrome64_stable_windows_installer.exe",
-    "69":r".\69.0.3497.81_chrome64_stable_windows_installer.exe"
+    "69":r".\chrome\69.0.3497.81_chrome64_stable_windows_installer.exe"
 }
 firefox = {
     "56":r".\Firefox56.0.exe",

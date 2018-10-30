@@ -1,10 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import tkinter as tk
 from tkinter import ttk
-import os,re
-# from urllib import request  因为打包程序没法使用urllib，改用urllib2
-import urllib2
+import os,re,sys
+if sys.version < "3":
+    import urllib2
+else:
+    # 因为打包程序没法使用urllib，改用urllib2
+    from urllib import request
 chrome = {
     "49":r".\49.0.2623.75_chrome64_stable_windows_installer.exe",
     "70":r".\ChromeSetup.exe"
@@ -25,18 +28,29 @@ def execUninstallFirefoxCMD():
         return False
 
 def execUninstallChromeCMD():
-    print("i am sorry")
+    get_version_cmd = r'wmic datafile where name="C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" get Version /value > D:\\a.txt"'
+    os.system(get_version_cmd)
+    f = open('D:/a.txt',encoding='utf-16')
+    txtcont = f.read()
+    f.close()
+    print (txtcont[10:22])
+    chrome_version = txtcont[10:22]
+    uninstallchrome_cmd = "C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\" + chrome_version + "\\Installer\\setup.exe --uninstall --multi-install --chrome"
+    f = os.system(uninstallchrome_cmd)
+    if str(f) != "0":
+        return False
 
 def downloadPackage(url):
     # http://10.80.0.160:8888/Firefox60.0.exe
     packageName = sendChromeAddress.get().split("/")[-1]
     packagePWD = os.getcwd() + "\\" + packageName
-    # request.urlretrieve(url,"./%s"%packageName)
-    f = urllib2.urlopen(url)
-    data =f.read()
-    with open(packageName,"wb") as code:
-        code.write(data)
-
+    if sys.version < "3":
+        f = urllib2.urlopen(url)
+        data = f.read()
+        with open(packageName, "wb") as code:
+            code.write(data)
+    else:
+        request.urlretrieve(url,"./%s"%packageName)
     return packagePWD
 # def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
 #     if sendChromeAddress.get() != "":

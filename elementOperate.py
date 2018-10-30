@@ -7,6 +7,8 @@ from case.toolLib.result import Result
 from case.caseLib.configure.basicMethod import BasicMethod
 from selenium.webdriver.support.select import Select
 from lib.runnerHelper import RunnerHelper
+from appium.webdriver.connectiontype import ConnectionType
+from appium.webdriver.common.touch_action import TouchAction
 class ElementOperate:
     caseLog = Result()
     screenShotName = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) + ".png"
@@ -69,7 +71,6 @@ class ElementOperate:
 
     def findElementById(self, value):
         return self.driver.find_element_by_id(value)
-
     """
     summary: 通过判断找元素，存在返回，不存在就等待
     return: element
@@ -188,6 +189,19 @@ class ElementOperate:
     """
     def getText(self,by,value):
         return self.findMyElement(by,value).text
+
+    """
+    summary: 获取一组文本信息
+    return:
+    author: Moonlight
+    """
+    def getTexts(self, by, value):
+        texts = []
+        elements = self.findMyElements(by, value)
+        for i in range(len(elements)):
+            texts.append(elements[i].text)
+            # self.caseLog.log("第 %s个info：%s" % (i,texts[i]))
+        return texts
     """
     summary: 这是一个判断元素是否存在的方法
     return:
@@ -258,7 +272,13 @@ class ElementOperate:
 
     def selectByIndex(self,by,byValue,index):
         element = self.findMyElement(by, byValue)
-        Select(element).select_by_index(index)
+        try:
+            Select(element).select_by_index(index)
+            self.caseLog.log("选择元素index:%s" % index)
+        except:
+            self.caseLog.log("选择元素的index:%s不存在" % index)
+            self.screenShot()
+
     """
     summary: 失败截图
     return:
@@ -315,9 +335,27 @@ class ElementOperate:
      return:
      author: lisen sui
      """
-
-    def checkPoint(self, a, b):
-        assert a == b, 'check point error'
+    # SuiLei 2017-09-18: 完善检查点，添加失败截图以及日志输出
+    def checkPoint(self, a, b, slog='assert success', flog='assert error'):
+        # assert a == b, 'check point error'
+        if a == b:
+            self.caseLog.log(slog)
+        else:
+            self.caseLog.log(flog)
+            self.screenShot()
+            assert False
+    """
+    summary: 检查点， 通过传一个条件去判断
+    return:
+    author: lisen sui
+    """
+    def checkPointByCondition(self, condition, slog='assert success', flog='assert error'):
+        if (condition):
+            self.caseLog.log(slog)
+        else:
+            self.caseLog.log(flog)
+            self.screenShot()
+            assert False
     """
     summary: 获取属性值
     return:
@@ -326,20 +364,148 @@ class ElementOperate:
     def getAttributeValue(self,by, value):
         element = self.findMyElement(by, value)
         attribute = element.get_attribute("checked")
-        if attribute == "true":
-            return attribute
-        else:
-            element.click()
-            return attribute
+        return attribute
     """
-    summary: 滑动屏幕（element1-->element2）
+    summary: 滑动屏幕（element1-->element2）往上滑动，第一个element应该是value2
     return:
     author: lisen sui
     """
     def scrollScreen(self,by1, value1, by2, value2):
         self.driver.scroll(self.findMyElement(by1,value1), self.findMyElement(by2,value2))
+    """
+    summary: 设置网络
+    return:
+    author: lisen sui
+    """
+    def setNetwork(self, type):
+        if type == 1:
+            self.driver.set_network_connection(ConnectionType.AIRPLANE_MODE)
+        elif type == 2:
+            self.driver.set_network_connection(ConnectionType.WIFI_ONLY)
+        elif type == 4:
+            self.driver.set_network_connection(ConnectionType.DATA_ONLY)
+        elif type == 6:
+            self.driver.set_network_connection(ConnectionType.ALL_NETWORK_ON)
+        else:
+            raise NameError("Please enter a valid type of network")
+        return self.__getWebstate()
 
+    def __getWebstate(self):
+        info = {0: "NO_CONNECTION",
+                1: "AIRPLANE_MODE",
+                2: "WIFI_ONLY",
+                4: "DATA_ONLY",
+                6: "ALL_NETWORK_ON"}
+        state = self.driver.network_connection
+        return info.get(state)
+    """
+    summary: 退到后台*秒后返回到APP
+    return:
+    author: lisen sui
+    """
+    def backgroundAPP(self, seconds):
+        self.driver.background_app(seconds)
+    """ 
+    summary: 锁屏
+    return:
+    author: lisen sui
+    """
+    def lock(self, seconds):
+        self.driver.lock(seconds)
+    """
+    summary: 切换APP
+    return:
+    author: lisen sui
+    """
+    def switchAPP(self, packageName, activity):
+        # driver.keyevent(3)  # home键
+        self.driver.start_activity(packageName, activity)
+        self.driver.keyevent(4)  # 返回键
+    """
+    summary: 返回键
+    return:
+    author: lisen sui
+    """
+    def backKeyevent(self):
+        self.driver.back()
 
+    """
+    summary: 获取设备窗口大小，用于屏幕滚动
+    return:（x,y)
+    author: Moonlight
+    """
+    def getSize(self):
+        x = self.driver.get_window_size()['width']
+        y = self.driver.get_window_size()['height']
+        return (x, y)
 
+    """
+    summary: 按比例滚动屏幕，t为滚动速度(ms)，一般为500-1000，时间越短滚动越快,num为滚动次数
+    return:
+    author: Moonlight
+    """
+    # 向上滑动
+    def swipeUp(self, t, num):
+        l = self.getSize()
+        x1 = int(l[0] * 0.5)
+        y1 = int(l[1] * 0.75)
+        y2 = int(l[1] * 0.25)
+        for i in range(num):
+            self.driver.swipe(x1, y1, x1, y2, t)
 
+        # 向下滑动
+        def swipeDown(self, t, num):
+            l = self.getSize()
+            x1 = int(l[0] * 0.5)
+            y1 = int(l[1] * 0.25)
+            y2 = int(l[1] * 0.75)
+            for i in range(num):
+                self.driver.swipe(x1, y1, x1, y2, t)
+                self.sleep(2)
+    """
+    summary: 滚动屏幕查找元素
+    return: Element
+    author: Moonlight
+    """
+    def scrolltofindElement(self,by,value):
+        while(1):
+            if (self.__isElementExist(by, value)):
+                # self.caseLog.log("找到元素"+ value)
+                element = self.__findElement(by, value)
+                return element
+                # 不存在开启显性等待
+            else:
+                self.swipeUp(1000,1)
 
+    """
+    summary: 通过className and text精准滚动查找元素
+    return: element
+    author: psklf
+    出处： http://www.cnblogs.com/psklf/p/5290773.html
+    """
+    def find_by_scroll(self, item_name):
+        item = self.driver.find_element_by_android_uiautomator(
+            'new UiScrollable(new UiSelector().scrollable(true).instance(0)).getChildByText(new UiSelector().className("android.widget.TextView"), "'
+            + item_name + '")')
+        return item
+
+    """
+    summary: 通过className and text精准滚动查找并点击元素
+    return: 
+    author: psklf
+    出处： http://www.cnblogs.com/psklf/p/5290773.html
+    """
+    def find_by_scroll_click(self, item_name):
+        self.driver.find_element_by_android_uiautomator(
+            'new UiScrollable(new UiSelector().scrollable(true).instance(0)).getChildByText(new UiSelector().className("android.widget.TextView"), "'
+            + item_name + '")').click()
+    """
+        summary: doubleClick
+        return:
+        author: lisen sui
+        """
+
+    def doubleClick(self, by, value):
+        element = self.findMyElement(by, value)
+        action = TouchAction(self.driver)
+        action.press(element).release().press(element).release().perform()

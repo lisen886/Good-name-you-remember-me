@@ -10,10 +10,29 @@ else:
     from urllib import request
 chrome = {
     "49":r".\49.0.2623.75_chrome64_stable_windows_installer.exe",
-    "70":r".\ChromeSetup.exe"
+    "58":r".\58.0.3029.81_chrome64_stable_windows_installer.exe",
+    "59":r".\59.0.3071.25_chrome64_dev_windows_installer.exe",
+    "60":r".\60.0.3112.113_chrome64_stable_windows_installer.exe",
+    "61":r".\61.0.3163.79_chrome64_stable_windows_installer.exe",
+    "62":r".\62.0.3202.62_chrome64_stable_windows_installer.exe",
+    "63":r".\63.0.3239.132_chrome64_stable_windows_installer.exe",
+    "64":r".\64.0.3282.140_chrome64_stable_windows_installer.exe",
+    "65":r".\65.0.3325.162_chrome64_stable_windows_installer.exe",
+    "66":r".\66.0.3359.139_chrome64_stable_windows_installer.exe",
+    "67":r".\67.0.3396.87_chrome64_stable_windows_installer.exe",
+    "68":r".\68.0.3440.106_chrome64_stable_windows_installer.exe",
+    "69":r".\69.0.3497.81_chrome64_stable_windows_installer.exe"
 }
 firefox = {
-    "50":r".\Firefox60.0.exe"
+    "56":r".\Firefox56.0.exe",
+    "57":r".\Firefox57.0.exe",
+    "58":r".\Firefox58.0.exe",
+    "59":r".\Firefox59.0.exe",
+    "60":r".\Firefox60.0.exe",
+    "61":r".\Firefox61.0.exe",
+    "62":r".\Firefox62.0.exe",
+    "63":r".\Firefox63.0.exe",
+    "64":r".\Firefox64.0b5.exe"
 }
 def execInstallCMD(pwd):
     cmd = "start /wait "+pwd+" /S"
@@ -28,16 +47,16 @@ def execUninstallFirefoxCMD():
         return False
 
 def execUninstallChromeCMD():
-    get_version_cmd = r'wmic datafile where name="C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" get Version /value > D:\\a.txt"'
-    os.system(get_version_cmd)
-    f = open('D:/a.txt',encoding='utf-16')
-    txtcont = f.read()
+    os.system("taskkill /F /IM chrome.exe /T")
+    get_version_cmd = r'wmic datafile where name="C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" get Version /value'
+    f = os.popen(get_version_cmd)
+    out = f.read()
     f.close()
-    print (txtcont[10:22])
-    chrome_version = txtcont[10:22]
-    uninstallchrome_cmd = "C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\" + chrome_version + "\\Installer\\setup.exe --uninstall --multi-install --chrome"
+    chrome_version = out.split("=")[-1].strip()
+    uninstallchrome_cmd = "C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\" + str(chrome_version) + "\\Installer\\setup.exe --uninstall --multi-install --chrome"
     f = os.system(uninstallchrome_cmd)
-    if str(f) != "0":
+    print(f)
+    if str(f) != "0" and str(f) != "19":
         return False
 
 def downloadPackage(url):
@@ -52,34 +71,6 @@ def downloadPackage(url):
     else:
         request.urlretrieve(url,"./%s"%packageName)
     return packagePWD
-# def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
-#     if sendChromeAddress.get() != "":
-#         try:
-#             state = execInstallCMD(sendChromeAddress.get())
-#             if state == False:
-#                 installChromeAction.configure(text='Install fail ')
-#             else:
-#                 installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
-#                 installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
-#         except:
-#             installChromeAction.configure(text='Install fail ')
-#     else:
-#         if ChromeVersionList.get() in chrome:
-#             versionPWD = chrome[ChromeVersionList.get()]
-#             if os.path.exists(versionPWD):
-#                 try:
-#                     state = execInstallCMD(versionPWD)
-#                     if state == False:
-#                         installChromeAction.configure(text='Install fail ')
-#                     else:
-#                         installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
-#                         installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
-#                 except:
-#                     installChromeAction.configure(text='Install fail ')
-#             else:
-#                 installChromeAction.configure(text='This version of the file does not exist.')
-#         else:
-#             installChromeAction.configure(text='The dict is missing this value')
 def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
     if sendChromeAddress.get() != "":
         if re.match("http",sendChromeAddress.get()):
@@ -211,13 +202,13 @@ firefoxAddressEntered.focus()  # 当程序运行时,光标默认会出现在该�
 # 创建一个下拉列表
 ChromeVersionList = tk.StringVar()
 chromeVersionChosen = ttk.Combobox(win, width=10, textvariable=ChromeVersionList)
-chromeVersionChosen['values'] = (49, 50, 51, 52, 53, 70)  # 设置下拉列表的值
+chromeVersionChosen['values'] = (49, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69)  # 设置下拉列表的值
 chromeVersionChosen.grid(column=1, row=1)  # 设置其在界面中出现的位置  column代表列   row 代表行
 chromeVersionChosen.current(0)  # 设置下拉列表默认显示的值，0为 chromeVersionChosen['values'] 的下标值
 # 创建一个下拉列表2
 FirefoxVersionList = tk.StringVar()
 firefoxVersionChosen = ttk.Combobox(win, width=10, textvariable=FirefoxVersionList)
-firefoxVersionChosen['values'] = (49, 50, 51, 52, 53, 70)  # 设置下拉列表的值
+firefoxVersionChosen['values'] = (56, 57, 58, 59, 60, 61, 62, 63, 64)  # 设置下拉列表的值
 firefoxVersionChosen.grid(column=1, row=2)  # 设置其在界面中出现的位置  column代表列   row 代表行
 firefoxVersionChosen.current(0)  # 设置下拉列表默认显示的值，0为 firefoxVersionChosen['values'] 的下标值
 

@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import tkinter as tk
-from tkinter import ttk
 import os,re,sys
 if sys.version < "3":
     import urllib2
@@ -41,6 +39,7 @@ def execInstallCMD(pwd):
     if str(f) != "0":
         return False
 
+# install function
 def install_function(browserPackage):
     if browserPackage != "":
         if re.match("http",browserPackage):
@@ -97,10 +96,12 @@ def uninstall_firefox():
     f = os.system(cmd)
     if str(f) != "0":
         return False
+    else:
+        print("firfox uninstall success")
 
 def downloadPackage(url):
     # http://10.80.0.160:8888/Firefox60.0.exe
-    packageName = url.get().split("/")[-1]
+    packageName = url.split("/")[-1]
     packagePWD = os.getcwd() + "\\" + packageName
     if sys.version < "3":
         f = urllib2.urlopen(url)

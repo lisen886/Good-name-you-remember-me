@@ -3,7 +3,7 @@
 import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox
-import os,re,sys
+import os,re,sys,platform
 if sys.version < "3":
     import urllib2
 else:
@@ -35,6 +35,21 @@ firefox = {
     "63":r".\firefox\Firefox63.0.exe",
     "64":r".\firefox\Firefox64.0b5.exe"
 }
+mac_chrome = {
+    "49":r".\49.0.2623.13_chrome64_dev_osx_installer.dmg"
+}
+mac_firefox = {
+    "56":r".\firefox\Firefox56.0.dmg",
+    "57":r".\firefox\Firefox57.0.dmg",
+    "58":r".\firefox\Firefox58.0.dmg",
+    "59":r".\firefox\Firefox59.0.dmg",
+    "60":r".\firefox\Firefox60.0.dmg",
+    "61":r".\firefox\Firefox61.0.dmg",
+    "62":r".\firefox\Firefox62.0.dmg",
+    "63":r".\firefox\Firefox63.0.dmg",
+    "64":r".\firefox\Firefox64.0b5.dmg"
+}
+# *********************** windows ***********************#
 def execInstallCMD(pwd):
     cmd = "start /wait "+pwd+" /S"
     f = os.system(cmd)
@@ -59,7 +74,14 @@ def execUninstallChromeCMD():
     print(f)
     if str(f) != "0" and str(f) != "19":
         return False
-
+# *********************** macOS ***********************#
+def execInstallCMD_MACOS():
+    print("macos")
+def execUninstallChromeCMD_MACOS():
+    print("macos")
+def execUninstallFirefoxCMD__MACOS():
+    print("macos")
+# *********************** download ***********************#
 def downloadPackage(url):
     # http://10.80.0.160:8888/Firefox60.0.exe
     packageName = url.split("/")[-1]
@@ -77,7 +99,10 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
         if re.match("http",sendChromeAddress.get()):
             packagePWD = downloadPackage(sendChromeAddress.get())
             try:
-                state = execInstallCMD(packagePWD)
+                if platform.system() == "Windows":
+                    state = execInstallCMD(packagePWD)
+                else:
+                    state = execInstallCMD_MACOS()
                 if state == False:
                     tkinter.messagebox.showerror('错误', '安装失败')
                     # installChromeAction.configure(text='Install fail ')
@@ -90,7 +115,10 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 # installChromeAction.configure(text='Install fail ')
         else:
             try:
-                state = execInstallCMD(sendChromeAddress.get())
+                if platform.system() == "Windows":
+                    state = execInstallCMD(sendChromeAddress.get())
+                else:
+                    state = execInstallCMD_MACOS()
                 if state == False:
                     tkinter.messagebox.showerror('错误', '安装失败')
                     # installChromeAction.configure(text='Install fail ')
@@ -102,33 +130,67 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 tkinter.messagebox.showerror('错误', '安装失败')
                 # installChromeAction.configure(text='Install fail ')
     else:
-        if ChromeVersionList.get() in chrome:
-            versionPWD = chrome[ChromeVersionList.get()]
-            if os.path.exists(versionPWD):
-                try:
-                    state = execInstallCMD(versionPWD)
-                    if state == False:
-                        tkinter.messagebox.showerror('错误', '安装失败')
-                        # installChromeAction.configure(text='Install fail ')
-                    else:
-                        tkinter.messagebox.showinfo('提示', '安装成功')
-                        # installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
-                        # installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
-                except:
-                    tkinter.messagebox.showerror('错误', '安装失败')
-                    # installChromeAction.configure(text='Install fail ')
+        versionPWD = ""
+        if platform.system() == "Windows":
+            if ChromeVersionList.get() in chrome:
+                versionPWD = chrome[ChromeVersionList.get()]
             else:
-                tkinter.messagebox.showwarning('警告', '这个版本的安装包不存在')
-                # installChromeAction.configure(text='This version of the file does not exist.')
+                tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
         else:
-            tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
-            # installChromeAction.configure(text='The dict is missing this value')
+            if ChromeVersionList.get() in mac_chrome:
+                versionPWD = mac_chrome[ChromeVersionList.get()]
+            else:
+                tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
+        if os.path.exists(versionPWD):
+            try:
+                if platform.system() == "Windows":
+                    state = execInstallCMD(versionPWD)
+                else:
+                    state = execInstallCMD_MACOS()
+                if state == False:
+                    tkinter.messagebox.showerror('错误', '安装失败')
+                else:
+                    tkinter.messagebox.showinfo('提示', '安装成功')
+            except:
+                tkinter.messagebox.showerror('错误', '安装失败')
+        else:
+            tkinter.messagebox.showwarning('警告', '这个版本的安装包不存在')
+
+
+    # else:
+    #     if ChromeVersionList.get() in chrome:
+    #         versionPWD = chrome[ChromeVersionList.get()]
+    #         if os.path.exists(versionPWD):
+    #             try:
+    #                 if platform.system() == "Windows":
+    #                     state = execInstallCMD(versionPWD)
+    #                 else:
+    #                     state = execInstallCMD_MACOS()
+    #                 if state == False:
+    #                     tkinter.messagebox.showerror('错误', '安装失败')
+    #                     # installChromeAction.configure(text='Install fail ')
+    #                 else:
+    #                     tkinter.messagebox.showinfo('提示', '安装成功')
+    #                     # installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
+    #                     # installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
+    #             except:
+    #                 tkinter.messagebox.showerror('错误', '安装失败')
+    #                 # installChromeAction.configure(text='Install fail ')
+    #         else:
+    #             tkinter.messagebox.showwarning('警告', '这个版本的安装包不存在')
+    #             # installChromeAction.configure(text='This version of the file does not exist.')
+    #     else:
+    #         tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
+    #         # installChromeAction.configure(text='The dict is missing this value')
 def clickMeInstallFirefox():  # 当acction被点击时,该函数则生效
     if sendFirefoxAddress.get() != "":
         if re.match("http",sendFirefoxAddress.get()):
             packagePWD = downloadPackage(sendFirefoxAddress.get())
             try:
-                state = execInstallCMD(packagePWD)
+                if platform.system() == "Windows":
+                    state = execInstallCMD(packagePWD)
+                else:
+                    state = execInstallCMD_MACOS()
                 if state == False:
                     tkinter.messagebox.showerror('错误', '安装失败')
                     # installFirefoxAction.configure(text='Install fail ')
@@ -141,7 +203,10 @@ def clickMeInstallFirefox():  # 当acction被点击时,该函数则生效
                 tkinter.messagebox.showerror('错误', '安装失败')
         else:
             try:
-                state = execInstallCMD(sendFirefoxAddress.get())
+                if platform.system() == "Windows":
+                    state = execInstallCMD(sendFirefoxAddress.get())
+                else:
+                    state = execInstallCMD_MACOS()
                 if state == False:
                     # installFirefoxAction.configure(text='Install fail ')
                     tkinter.messagebox.showerror('错误', '安装失败')
@@ -153,30 +218,37 @@ def clickMeInstallFirefox():  # 当acction被点击时,该函数则生效
                 # installFirefoxAction.configure(text='Install fail ')
                 tkinter.messagebox.showerror('错误', '安装失败')
     else:
-        if FirefoxVersionList.get() in firefox:
-            versionPWD = firefox[FirefoxVersionList.get()]
-            if os.path.exists(versionPWD):
-                try:
-                    state = execInstallCMD(versionPWD)
-                    if state == False:
-                        # installFirefoxAction.configure(text='Install fail ')
-                        tkinter.messagebox.showerror('错误', '安装失败')
-                    else:
-                        tkinter.messagebox.showinfo('提示', '安装成功')
-                        # installFirefoxAction.configure(text='Install successed ')  # 设置button显示的内容
-                        # installFirefoxAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
-                except:
-                    # installFirefoxAction.configure(text='Install fail ')
-                    tkinter.messagebox.showerror('错误', '安装失败')
+        versionPWD = ""
+        if platform.system() == "Windows":
+            if FirefoxVersionList.get() in firefox:
+                versionPWD = firefox[FirefoxVersionList.get()]
             else:
-                tkinter.messagebox.showwarning('警告', '这个版本的安装包不存在')
-                # installFirefoxAction.configure(text='This version of the file does not exist.')
+                tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
         else:
-            tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
-            # installFirefoxAction.configure(text='The dict is missing this value')
+            if FirefoxVersionList.get() in mac_firefox:
+                versionPWD = mac_firefox[FirefoxVersionList.get()]
+            else:
+                tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
+        if os.path.exists(versionPWD):
+            try:
+                if platform.system() == "Windows":
+                    state = execInstallCMD(versionPWD)
+                else:
+                    state = execInstallCMD_MACOS()
+                if state == False:
+                    tkinter.messagebox.showerror('错误', '安装失败')
+                else:
+                    tkinter.messagebox.showinfo('提示', '安装成功')
+            except:
+                tkinter.messagebox.showerror('错误', '安装失败')
+        else:
+            tkinter.messagebox.showwarning('警告', '这个版本的安装包不存在')
 
 def clickMeUninstallChrome():
-    state = execUninstallChromeCMD()
+    if platform.system() == "Windows":
+        state = execUninstallChromeCMD()
+    else:
+        state = execUninstallChromeCMD_MACOS()
     if state == False:
         # uninstallChromeAction.configure(text='Uninstall fail ')
         tkinter.messagebox.showerror('错误', '卸载失败')
@@ -186,7 +258,10 @@ def clickMeUninstallChrome():
         # uninstallChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
 
 def clickMeUninstallFirefox():
-    state = execUninstallFirefoxCMD()
+    if platform.system() == "Windows":
+        state = execUninstallFirefoxCMD()
+    else:
+        state = execUninstallFirefoxCMD__MACOS()
     if state == False:
         tkinter.messagebox.showerror('错误', '卸载失败')
         # uninstallFirefoxAction.configure(text='Uninstall fail ')

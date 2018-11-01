@@ -36,18 +36,19 @@ firefox = {
     "64":r".\firefox\Firefox64.0b5.exe"
 }
 mac_chrome = {
-    "49":r".\49.0.2623.13_chrome64_dev_osx_installer.dmg"
+    # "49":r"./chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
+    "49":r"chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
 }
 mac_firefox = {
-    "56":r".\firefox\Firefox56.0.dmg",
-    "57":r".\firefox\Firefox57.0.dmg",
-    "58":r".\firefox\Firefox58.0.dmg",
-    "59":r".\firefox\Firefox59.0.dmg",
-    "60":r".\firefox\Firefox60.0.dmg",
-    "61":r".\firefox\Firefox61.0.dmg",
-    "62":r".\firefox\Firefox62.0.dmg",
-    "63":r".\firefox\Firefox63.0.dmg",
-    "64":r".\firefox\Firefox64.0b5.dmg"
+    "56":r"./firefox/Firefox56.0.dmg",
+    "57":r"./firefox/Firefox57.0.dmg",
+    "58":r"./firefox/Firefox58.0.dmg",
+    "59":r"./firefox/Firefox59.0.dmg",
+    "60":r"./firefox/Firefox60.0.dmg",
+    "61":r"./firefox/Firefox61.0.dmg",
+    "62":r"./firefox/Firefox62.0.dmg",
+    "63":r"./firefox/Firefox63.0.dmg",
+    "64":r"./firefox/Firefox64.0b5.dmg"
 }
 # *********************** windows ***********************#
 def execInstallCMD(pwd):
@@ -222,6 +223,10 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 versionPWD = mac_chrome[ChromeVersionList.get()]
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
+        if platform.system() != "Windows":
+            # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
+            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
+            versionPWD = appPWD+versionPWD
         if os.path.exists(versionPWD):
             try:
                 if platform.system() == "Windows":

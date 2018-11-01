@@ -293,6 +293,10 @@ def clickMeInstallFirefox():
                 versionPWD = mac_firefox[FirefoxVersionList.get()]
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
+        if platform.system() != "Windows":
+            # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
+            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
+            versionPWD = appPWD+versionPWD
         if os.path.exists(versionPWD):
             try:
                 if platform.system() == "Windows":

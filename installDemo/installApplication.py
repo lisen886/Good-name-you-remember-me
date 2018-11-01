@@ -256,6 +256,10 @@ def clickMeInstallFirefox():
             except:
                 # installFirefoxAction.configure(text='Install fail ')
                 tkinter.messagebox.showerror('错误', '安装失败')
+            if platform.system() == "Windows":
+                os.system("del %s" % packagePWD)
+            else:
+                os.system("rm -f %s" % packagePWD)
         else:
             try:
                 if platform.system() == "Windows":

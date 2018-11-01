@@ -191,9 +191,9 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 tkinter.messagebox.showerror('错误', '安装失败')
                 # installChromeAction.configure(text='Install fail ')
             if platform.system() == "Windows":
-                os.system("rm -f %s" % packagePWD)
-            else:
                 os.system("del %s" % packagePWD)
+            else:
+                os.system("rm -f %s" % packagePWD)
         else:
             try:
                 if platform.system() == "Windows":

@@ -71,16 +71,46 @@ def execUninstallChromeCMD():
     chrome_version = out.split("=")[-1].strip()
     uninstallchrome_cmd = "C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\" + str(chrome_version) + "\\Installer\\setup.exe --uninstall --multi-install --chrome"
     f = os.system(uninstallchrome_cmd)
-    print(f)
     if str(f) != "0" and str(f) != "19":
         return False
 # *********************** macOS ***********************#
 detachDiskTempList = []
-def execInstallCMD_MACOS():
-    tkinter.messagebox.showinfo('提示', '暂未实现')
-    return False
-
-def execOpenBrowser_MACOS(pwd,type):
+def execInstallCMD_MACOS(pwd,Btype):
+    attachCMD = "hdiutil attach " + pwd
+    out = os.system(attachCMD)
+    # f = os.popen(attachCMD)
+    # out = f.read()
+    # f.close()
+    askStatus = tkinter.messagebox.askyesno('提示', '是否卸载自己的浏览器重新安装')
+    if askStatus == True:
+        if Btype == "Chrome":
+            os.system("rm -rf /Applications/Google\ Chrome.app/")
+            os.system("cp -r /Volumes/Google\ Chrome/Google\ Chrome.app/ /Applications/Google\ Chrome.app/")
+        elif Btype == "Firefox":
+            os.system("rm -rf /Applications/Firefox/")
+            os.system("cp -r /Volumes/Firefox/Firefox.app/ /Applications/Firefox.app/")
+        else:
+            print("...")
+    else:
+        if Btype == "Chrome":
+            os.system("rm -rf /Applications/Google\ ChromeTemp.app/")
+            os.system("cp -r /Volumes/Google\ Chrome/Google\ Chrome.app/ /Applications/Google\ ChromeTemp.app/")
+        elif Btype == "Firefox":
+            os.system("rm -rf /Applications/FirefoxTemp.app/")
+            os.system("cp -r /Volumes/Firefox/Firefox.app/ /Applications/FirefoxTemp.app/")
+        else:
+            print("...")
+    if Btype == "Chrome":
+        os.system("hdiutil detach /Volumes/Google\ Chrome/")
+    else:
+        os.system("hdiutil detach /Volumes/Firefox/")
+    # detachDiskList = out.split("\t\n")
+    # for detachDiskI in detachDiskList:
+    #     if "/Volumes/" in detachDiskI:
+    #         detachDisk = detachDiskI.split("\t")[0].strip()
+    #         detachCMD = "hdiutil detach " + detachDisk
+    #         os.system(detachCMD)
+def execOpenBrowser_MACOS(pwd,Btype):
     attachCMD = "hdiutil attach " + pwd
     f = os.popen(attachCMD)
     out = f.read()
@@ -90,47 +120,58 @@ def execOpenBrowser_MACOS(pwd,type):
         if "/Volumes/" in detachDiskI:
             detachDisk = detachDiskI.split("\t")[0].strip()
             detachDiskTempList.append(detachDisk)
-    if type == "Chrome":
+    if Btype == "Chrome":
         os.system("open /Volumes/Google\ Chrome/Google\ Chrome.app/")
-    elif type == "Firefox":
+    elif Btype == "Firefox":
         os.system("open /Volumes/Firefox/Firefox.app/")
     else:
         print("...")
-
-def execCloseBrowser_MACOS(type):
-    if type == "Chrome":
+def execCloseBrowser_MACOS(Btype):
+    if Btype == "Chrome":
         os.system("ps -ef | grep Google | grep -v grep | awk '{print $2}' | xargs kill -9")
-    elif type == "Firefox":
+    elif Btype == "Firefox":
         os.system("ps -ef | grep Firefox | grep -v grep | awk '{print $2}' | xargs kill -9")
     detachDisk = detachDiskTempList[0]
     detachCMD = "hdiutil detach "+detachDisk
     os.system(detachCMD)
     detachDiskTempList.clear()
 def execUninstallChromeCMD_MACOS():
-    cmd = r'"rm -rf /Applications/Google\ Chrome'
-    f = os.system(cmd)
-    if str(f) != "0":
-        return False
+    askStatus = tkinter.messagebox.askyesno('提示', '是否卸载浏览器')
+    if askStatus == True:
+        cmd = r'"rm -rf /Applications/Google\ Chrome'
+        f = os.system(cmd)
+        if str(f) != "0":
+            return False
+    else:
+        return "cancle"
 def execUninstallFirefoxCMD__MACOS():
-    cmd = r'"rm -rf /Applications/Firefox.app/'
-    f = os.system(cmd)
-    if str(f) != "0":
-        return False
-# *********************** download ***********************#
+    askStatus = tkinter.messagebox.askyesno('提示', '是否卸载浏览器')
+    if askStatus == True:
+        cmd = r'"rm -rf /Applications/Firefox.app/'
+        f = os.system(cmd)
+        if str(f) != "0":
+            return False
+    else:
+        return "cancle"
+# **********************************************#
 def downloadPackage(url):
     # http://10.80.0.160:8888/Firefox60.0.exe
     packageName = url.split("/")[-1]
     if platform.system() == "Windows":
         packagePWD = os.getcwd() + "\\" + packageName
     else:
-        packagePWD = os.getcwd() + "/" + packageName
+        packagePWD = "/tmp/" + packageName
+        # packagePWD = os.getcwd() + "/" + packageName
     if sys.version < "3":
         f = urllib2.urlopen(url)
         data = f.read()
         with open(packageName, "wb") as code:
             code.write(data)
     else:
-        request.urlretrieve(url,"./%s"%packageName)
+        if platform.system() == "Windows":
+            request.urlretrieve(url, "./%s" % packageName)
+        else:
+            request.urlretrieve(url,"%s"%packagePWD)
     return packagePWD
 def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
     if sendChromeAddress.get() != "":
@@ -140,23 +181,22 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 if platform.system() == "Windows":
                     state = execInstallCMD(packagePWD)
                 else:
-                    state = execInstallCMD_MACOS(packagePWD)
+                    state = execInstallCMD_MACOS(packagePWD,"Chrome")
                 if state == False:
                     tkinter.messagebox.showerror('错误', '安装失败')
                     # installChromeAction.configure(text='Install fail ')
                 else:
                     tkinter.messagebox.showinfo('提示', '安装成功')
-                    # installChromeAction.configure(text='Install successed ')  # 设置button显示的内容
-                    # installChromeAction.configure(state='disabled')  # 将按钮设置为灰色状态，不可使用状态
             except:
                 tkinter.messagebox.showerror('错误', '安装失败')
                 # installChromeAction.configure(text='Install fail ')
+            os.system("rm -f %s" % packagePWD)
         else:
             try:
                 if platform.system() == "Windows":
                     state = execInstallCMD(sendChromeAddress.get())
                 else:
-                    state = execInstallCMD_MACOS()
+                    state = execInstallCMD_MACOS(sendChromeAddress.get(),"Chrome")
                 if state == False:
                     tkinter.messagebox.showerror('错误', '安装失败')
                     # installChromeAction.configure(text='Install fail ')
@@ -184,7 +224,7 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 if platform.system() == "Windows":
                     state = execInstallCMD(versionPWD)
                 else:
-                    state = execInstallCMD_MACOS()
+                    state = execInstallCMD_MACOS(versionPWD,"Chrome")
                 if state == False:
                     tkinter.messagebox.showerror('错误', '安装失败')
                 else:
@@ -202,7 +242,7 @@ def clickMeInstallFirefox():
                 if platform.system() == "Windows":
                     state = execInstallCMD(packagePWD)
                 else:
-                    state = execInstallCMD_MACOS()
+                    state = execInstallCMD_MACOS(packagePWD,"Firefox")
                 if state == False:
                     tkinter.messagebox.showerror('错误', '安装失败')
                     # installFirefoxAction.configure(text='Install fail ')
@@ -218,7 +258,7 @@ def clickMeInstallFirefox():
                 if platform.system() == "Windows":
                     state = execInstallCMD(sendFirefoxAddress.get())
                 else:
-                    state = execInstallCMD_MACOS()
+                    state = execInstallCMD_MACOS(sendFirefoxAddress.get(),"Firefox")
                 if state == False:
                     # installFirefoxAction.configure(text='Install fail ')
                     tkinter.messagebox.showerror('错误', '安装失败')
@@ -246,7 +286,7 @@ def clickMeInstallFirefox():
                 if platform.system() == "Windows":
                     state = execInstallCMD(versionPWD)
                 else:
-                    state = execInstallCMD_MACOS()
+                    state = execInstallCMD_MACOS(versionPWD,"Firefox")
                 if state == False:
                     tkinter.messagebox.showerror('错误', '安装失败')
                 else:
@@ -264,6 +304,8 @@ def clickMeUninstallChrome():
     if state == False:
         # uninstallChromeAction.configure(text='Uninstall fail ')
         tkinter.messagebox.showerror('错误', '卸载失败')
+    elif state == "cancle":
+        pass
     else:
         tkinter.messagebox.showinfo('提示', '卸载成功')
         # uninstallChromeAction.configure(text='Uninstall successed ')  # 设置button显示的内容
@@ -277,6 +319,8 @@ def clickMeUninstallFirefox():
     if state == False:
         tkinter.messagebox.showerror('错误', '卸载失败')
         # uninstallFirefoxAction.configure(text='Uninstall fail ')
+    elif state == "cancle":
+        pass
     else:
         tkinter.messagebox.showinfo('提示', '卸载成功')
         # uninstallFirefoxAction.configure(text='Uninstall successed ')  # 设置button显示的内容
@@ -364,7 +408,6 @@ def clickCloseChrome():
         tkinter.messagebox.showerror('错误', '关闭失败')
     else:
         tkinter.messagebox.showinfo('提示', '关闭成功')
-
 def clickCloseFirefox():
     state = execCloseBrowser_MACOS("Firefox")
     if state == False:
@@ -392,18 +435,18 @@ uninstallChromeAction.grid(column=3, row=1)  # 设置其在界面中出现的位
 uninstallFirefoxAction = ttk.Button(win, text="Uninstall Firefox  ", command=clickMeUninstallFirefox)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
 uninstallFirefoxAction.grid(column=3, row=2)  # 设置其在界面中出现的位置  column代表列   row 代表行
 
-# openChrome
-openChromeAction = ttk.Button(win, text="Open Mac Chrome", command=clickOpenChrome)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
-openChromeAction.grid(column=4, row=1)  # 设置其在界面中出现的位置  column代表列   row 代表行
-# openFirefox
-openFirefoxAction = ttk.Button(win, text="Open Mac Firefox  ", command=clickOpenFirefox)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
-openFirefoxAction.grid(column=4, row=2)  # 设置其在界面中出现的位置  column代表列   row 代表行
-# closeChrome
-closeChromeAction = ttk.Button(win, text="Close Mac Chrome", command=clickCloseChrome)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
-closeChromeAction.grid(column=5, row=1)  # 设置其在界面中出现的位置  column代表列   row 代表行
-# closeFirefox
-closeFirefoxAction = ttk.Button(win, text="Close Mac Firefox  ", command=clickCloseFirefox)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
-closeFirefoxAction.grid(column=5, row=2)  # 设置其在界面中出现的位置  column代表列   row 代表行
+# # openChrome
+# openChromeAction = ttk.Button(win, text="Open Mac Chrome", command=clickOpenChrome)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
+# openChromeAction.grid(column=4, row=1)  # 设置其在界面中出现的位置  column代表列   row 代表行
+# # openFirefox
+# openFirefoxAction = ttk.Button(win, text="Open Mac Firefox  ", command=clickOpenFirefox)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
+# openFirefoxAction.grid(column=4, row=2)  # 设置其在界面中出现的位置  column代表列   row 代表行
+# # closeChrome
+# closeChromeAction = ttk.Button(win, text="Close Mac Chrome", command=clickCloseChrome)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
+# closeChromeAction.grid(column=5, row=1)  # 设置其在界面中出现的位置  column代表列   row 代表行
+# # closeFirefox
+# closeFirefoxAction = ttk.Button(win, text="Close Mac Firefox  ", command=clickCloseFirefox)  # 创建一个按钮, text：显示按钮上面显示的文字, command：当这个按钮被点击之后会调用command函数
+# closeFirefoxAction.grid(column=5, row=2)  # 设置其在界面中出现的位置  column代表列   row 代表行
 
 
 # 文本框

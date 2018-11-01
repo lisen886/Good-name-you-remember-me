@@ -124,7 +124,7 @@ def install_chrome_on_mac(browserPackage):
         if re.match("http",browserPackage):
             packagePWD = downloadPackage(browserPackage)
             try:
-                state = exec_install_cmd_on_mac(packagePWD,Btype=Chrome)
+                state = exec_install_cmd_on_mac(packagePWD,Btype="Chrome")
                 if state == False:
                     print("use http way to install failed")
                 else:
@@ -133,7 +133,7 @@ def install_chrome_on_mac(browserPackage):
                 print("use http way to install failed ")
         else:
             try:
-                state = exec_install_cmd_on_mac(browserPackage,Btype=Chrome)
+                state = exec_install_cmd_on_mac(browserPackage,Btype="Chrome")
                 if state == False:
                     print("use location station to install failed")
                 else:
@@ -145,7 +145,7 @@ def install_chrome_on_mac(browserPackage):
             versionPWD = mac_chrome[str(browserPackage)]
             if os.path.exists(versionPWD):
                 try:
-                    state = exec_install_cmd_on_mac(versionPWD,Btype=Chrome)
+                    state = exec_install_cmd_on_mac(versionPWD,Btype="Chrome")
                     if state == False:
                         print("use exe to install failed")
                     else:
@@ -162,7 +162,7 @@ def install_firefox_on_mac(browserPackage):
         if re.match("http",browserPackage):
             packagePWD = downloadPackage(browserPackage)
             try:
-                state = exec_install_cmd_on_mac(packagePWD,Btype=Firefox)
+                state = exec_install_cmd_on_mac(packagePWD,Btype="Firefox")
                 if state == False:
                     print("use http way to install failed")
                 else:
@@ -171,7 +171,7 @@ def install_firefox_on_mac(browserPackage):
                 print("use http way to install failed ")
         else:
             try:
-                state = exec_install_cmd_on_mac(browserPackage,Btype=Firefox)
+                state = exec_install_cmd_on_mac(browserPackage,Btype="Firefox")
                 if state == False:
                     print("use location station to install failed")
                 else:
@@ -183,7 +183,7 @@ def install_firefox_on_mac(browserPackage):
             versionPWD = mac_firefox[str(browserPackage)]
             if os.path.exists(versionPWD):
                 try:
-                    state = exec_install_cmd_on_mac(versionPWD,Btype=Firefox)
+                    state = exec_install_cmd_on_mac(versionPWD,Btype="Firefox")
                     if state == False:
                         print("use exe to install failed")
                     else:

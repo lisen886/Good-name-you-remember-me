@@ -138,7 +138,7 @@ def execCloseBrowser_MACOS(Btype):
 def execUninstallChromeCMD_MACOS():
     askStatus = tkinter.messagebox.askyesno('提示', '是否卸载浏览器')
     if askStatus == True:
-        cmd = r'"rm -rf /Applications/Google\ Chrome'
+        cmd = r'"rm -rf /Applications/Google\ Chrome.app'
         f = os.system(cmd)
         if str(f) != "0":
             return False
@@ -190,7 +190,10 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
             except:
                 tkinter.messagebox.showerror('错误', '安装失败')
                 # installChromeAction.configure(text='Install fail ')
-            os.system("rm -f %s" % packagePWD)
+            if platform.system() == "Windows":
+                os.system("del %s" % packagePWD)
+            else:
+                os.system("rm -f %s" % packagePWD)
         else:
             try:
                 if platform.system() == "Windows":
@@ -253,6 +256,10 @@ def clickMeInstallFirefox():
             except:
                 # installFirefoxAction.configure(text='Install fail ')
                 tkinter.messagebox.showerror('错误', '安装失败')
+            if platform.system() == "Windows":
+                os.system("del %s" % packagePWD)
+            else:
+                os.system("rm -f %s" % packagePWD)
         else:
             try:
                 if platform.system() == "Windows":

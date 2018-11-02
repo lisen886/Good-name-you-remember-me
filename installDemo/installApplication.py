@@ -3,53 +3,53 @@
 import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox
-import os,re,sys,platform
+import os,re,sys,platform,json
 if sys.version < "3":
     import urllib2
 else:
     # 因为打包程序没法使用urllib，改用urllib2
     from urllib import request
-chrome = {
-    "49":r".\chrome\49.0.2623.75_chrome64_stable_windows_installer.exe",
-    "58":r".\chrome\58.0.3029.81_chrome64_stable_windows_installer.exe",
-    "59":r".\chrome\59.0.3071.25_chrome64_dev_windows_installer.exe",
-    "60":r".\chrome\60.0.3112.113_chrome64_stable_windows_installer.exe",
-    "61":r".\chrome\61.0.3163.79_chrome64_stable_windows_installer.exe",
-    "62":r".\chrome\62.0.3202.62_chrome64_stable_windows_installer.exe",
-    "63":r".\chrome\63.0.3239.132_chrome64_stable_windows_installer.exe",
-    "64":r".\chrome\64.0.3282.140_chrome64_stable_windows_installer.exe",
-    "65":r".\chrome\65.0.3325.162_chrome64_stable_windows_installer.exe",
-    "66":r".\chrome\66.0.3359.139_chrome64_stable_windows_installer.exe",
-    "67":r".\chrome\67.0.3396.87_chrome64_stable_windows_installer.exe",
-    "68":r".\chrome\68.0.3440.106_chrome64_stable_windows_installer.exe",
-    "69":r".\chrome\69.0.3497.81_chrome64_stable_windows_installer.exe"
-}
-firefox = {
-    "56":r".\firefox\Firefox56.0.exe",
-    "57":r".\firefox\Firefox57.0.exe",
-    "58":r".\firefox\Firefox58.0.exe",
-    "59":r".\firefox\Firefox59.0.exe",
-    "60":r".\firefox\Firefox60.0.exe",
-    "61":r".\firefox\Firefox61.0.exe",
-    "62":r".\firefox\Firefox62.0.exe",
-    "63":r".\firefox\Firefox63.0.exe",
-    "64":r".\firefox\Firefox64.0b5.exe"
-}
-mac_chrome = {
-    # "49":r"./chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
-    "49":r"chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
-}
-mac_firefox = {
-    "56":r"./firefox/Firefox56.0.dmg",
-    "57":r"./firefox/Firefox57.0.dmg",
-    "58":r"./firefox/Firefox58.0.dmg",
-    "59":r"./firefox/Firefox59.0.dmg",
-    "60":r"./firefox/Firefox60.0.dmg",
-    "61":r"./firefox/Firefox61.0.dmg",
-    "62":r"./firefox/Firefox62.0.dmg",
-    "63":r"./firefox/Firefox63.0.dmg",
-    "64":r"./firefox/Firefox64.0b5.dmg"
-}
+# chrome = {
+#     "49":r".\chrome\49.0.2623.75_chrome64_stable_windows_installer.exe",
+#     "58":r".\chrome\58.0.3029.81_chrome64_stable_windows_installer.exe",
+#     "59":r".\chrome\59.0.3071.25_chrome64_dev_windows_installer.exe",
+#     "60":r".\chrome\60.0.3112.113_chrome64_stable_windows_installer.exe",
+#     "61":r".\chrome\61.0.3163.79_chrome64_stable_windows_installer.exe",
+#     "62":r".\chrome\62.0.3202.62_chrome64_stable_windows_installer.exe",
+#     "63":r".\chrome\63.0.3239.132_chrome64_stable_windows_installer.exe",
+#     "64":r".\chrome\64.0.3282.140_chrome64_stable_windows_installer.exe",
+#     "65":r".\chrome\65.0.3325.162_chrome64_stable_windows_installer.exe",
+#     "66":r".\chrome\66.0.3359.139_chrome64_stable_windows_installer.exe",
+#     "67":r".\chrome\67.0.3396.87_chrome64_stable_windows_installer.exe",
+#     "68":r".\chrome\68.0.3440.106_chrome64_stable_windows_installer.exe",
+#     "69":r".\chrome\69.0.3497.81_chrome64_stable_windows_installer.exe"
+# }
+# firefox = {
+#     "56":r".\firefox\Firefox56.0.exe",
+#     "57":r".\firefox\Firefox57.0.exe",
+#     "58":r".\firefox\Firefox58.0.exe",
+#     "59":r".\firefox\Firefox59.0.exe",
+#     "60":r".\firefox\Firefox60.0.exe",
+#     "61":r".\firefox\Firefox61.0.exe",
+#     "62":r".\firefox\Firefox62.0.exe",
+#     "63":r".\firefox\Firefox63.0.exe",
+#     "64":r".\firefox\Firefox64.0b5.exe"
+# }
+# mac_chrome = {
+#     # "49":r"./chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
+#     "49":r"chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
+# }
+# mac_firefox = {
+#     "56":r"./firefox/Firefox56.0.dmg",
+#     "57":r"./firefox/Firefox57.0.dmg",
+#     "58":r"./firefox/Firefox58.0.dmg",
+#     "59":r"./firefox/Firefox59.0.dmg",
+#     "60":r"./firefox/Firefox60.0.dmg",
+#     "61":r"./firefox/Firefox61.0.dmg",
+#     "62":r"./firefox/Firefox62.0.dmg",
+#     "63":r"./firefox/Firefox63.0.dmg",
+#     "64":r"./firefox/Firefox64.0b5.dmg"
+# }
 # *********************** windows ***********************#
 def execInstallCMD(pwd):
     cmd = "start /wait "+pwd+" /S"
@@ -172,6 +172,10 @@ def downloadPackage(url):
         else:
             request.urlretrieve(url,"%s"%packagePWD)
     return packagePWD
+def getJsonData(browserType,version):
+    with open("./browserConfig.json","r") as load_f:
+        load_dict = json.load(load_f)
+        return load_dict[browserType],load_dict[browserType][str(version)]
 def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
     if sendChromeAddress.get() != "":
         if re.match("http",sendChromeAddress.get()):
@@ -212,13 +216,15 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
     else:
         versionPWD = ""
         if platform.system() == "Windows":
-            if ChromeVersionList.get() in chrome:
-                versionPWD = chrome[ChromeVersionList.get()]
+            winChromeDict, winChromeVerionPWD = getJsonData("winchromeList", ChromeVersionList.get())
+            if ChromeVersionList.get() in winChromeDict:
+                versionPWD = winChromeVerionPWD
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
         else:
-            if ChromeVersionList.get() in mac_chrome:
-                versionPWD = mac_chrome[ChromeVersionList.get()]
+            macChromeDict,macChromeVerionPWD = getJsonData("macchromeList",ChromeVersionList.get())
+            if ChromeVersionList.get() in macChromeDict:
+                versionPWD = macChromeVerionPWD
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
         if platform.system() != "Windows":
@@ -282,13 +288,15 @@ def clickMeInstallFirefox():
     else:
         versionPWD = ""
         if platform.system() == "Windows":
-            if FirefoxVersionList.get() in firefox:
-                versionPWD = firefox[FirefoxVersionList.get()]
+            winFirefoxDict, winFirefoxVerionPWD = getJsonData("winfirefoxList", FirefoxVersionList.get())
+            if FirefoxVersionList.get() in winFirefoxDict:
+                versionPWD = winFirefoxVerionPWD
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
         else:
-            if FirefoxVersionList.get() in mac_firefox:
-                versionPWD = mac_firefox[FirefoxVersionList.get()]
+            macFirefoxDict, macFirefoxVerionPWD = getJsonData("macfirefoxList", FirefoxVersionList.get())
+            if FirefoxVersionList.get() in macFirefoxDict:
+                versionPWD = macFirefoxVerionPWD
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
         if platform.system() != "Windows":
@@ -363,8 +371,9 @@ def clickOpenChrome():
                 tkinter.messagebox.showerror('错误', '打开失败')
     else:
         versionPWD = ""
-        if ChromeVersionList.get() in mac_chrome:
-            versionPWD = mac_chrome[ChromeVersionList.get()]
+        macChromeDict, macChromeVerionPWD = getJsonData("macchromeList", ChromeVersionList.get())
+        if ChromeVersionList.get() in macChromeDict:
+            versionPWD = macChromeVerionPWD
         else:
             tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
         if os.path.exists(versionPWD):
@@ -401,8 +410,9 @@ def clickOpenFirefox():
                 tkinter.messagebox.showerror('错误', '打开失败')
     else:
         versionPWD = ""
-        if ChromeVersionList.get() in mac_chrome:
-            versionPWD = mac_chrome[ChromeVersionList.get()]
+        macFirefoxDict, macFirefoxVerionPWD = getJsonData("macfirefoxList", FirefoxVersionList.get())
+        if FirefoxVersionList.get() in macFirefoxDict:
+            versionPWD = macFirefoxVerionPWD
         else:
             tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
         if os.path.exists(versionPWD):

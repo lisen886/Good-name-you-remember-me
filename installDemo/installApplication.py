@@ -139,8 +139,7 @@ def execCloseBrowser_MACOS(Btype):
 def execUninstallChromeCMD_MACOS():
     askStatus = tkinter.messagebox.askyesno('提示', '是否卸载浏览器')
     if askStatus == True:
-        cmd = r'"rm -rf /Applications/Google\ Chrome.app'
-        f = os.system(cmd)
+        f = os.system("rm -rf /Applications/Google\ Chrome.app")
         if str(f) != "0":
             return False
     else:
@@ -148,8 +147,7 @@ def execUninstallChromeCMD_MACOS():
 def execUninstallFirefoxCMD__MACOS():
     askStatus = tkinter.messagebox.askyesno('提示', '是否卸载浏览器')
     if askStatus == True:
-        cmd = r'"rm -rf /Applications/Firefox.app/'
-        f = os.system(cmd)
+        f = os.system("rm -rf /Applications/Firefox.app/")
         if str(f) != "0":
             return False
     else:

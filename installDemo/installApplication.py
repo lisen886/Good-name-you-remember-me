@@ -148,8 +148,8 @@ def getJsonData(browserType,version):
                 return load_dict[browserType],versionPWD
         else:
             # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
-            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
-            jsonPWD = appPWD+"/browserConfig.json"
+            appPWD = os.path.abspath(sys.argv[0]).split("installApplication")[0]
+            jsonPWD = appPWD+"browserConfig.json"
             with open(jsonPWD,"r") as load_f:
                 load_dict = json.load(load_f)
                 versionPWD = appPWD+load_dict[browserType][str(version)]

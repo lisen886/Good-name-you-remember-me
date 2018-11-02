@@ -139,6 +139,7 @@ def getJsonData(browserType,version):
                 versionPWD = appPWD+load_dict[browserType][str(version)].replace("/", "\\")
                 return load_dict[browserType],versionPWD
         else:
+            # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
             appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
             jsonPWD = appPWD+"/browserConfig.json"
             with open(jsonPWD,"r") as load_f:
@@ -198,10 +199,6 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 versionPWD = macChromeVerionPWD
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
-        if platform.system() != "Windows":
-            # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
-            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
-            versionPWD = appPWD+versionPWD
         if os.path.exists(versionPWD):
             try:
                 if platform.system() == "Windows":
@@ -270,10 +267,6 @@ def clickMeInstallFirefox():
                 versionPWD = macFirefoxVerionPWD
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
-        if platform.system() != "Windows":
-            # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
-            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
-            versionPWD = appPWD+versionPWD
         if os.path.exists(versionPWD):
             try:
                 if platform.system() == "Windows":

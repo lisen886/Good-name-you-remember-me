@@ -141,21 +141,29 @@ def downloadPackage(url):
 def getJsonData(browserType,version):
     try:
         if platform.system() == "Windows":
-            with open("./browserConfig.json","r") as load_f:
-                load_dict = json.load(load_f)
-                appPWD = os.getcwd()
-                versionPWD = appPWD+load_dict[browserType][str(version)].replace("/", "\\")
-                return load_dict[browserType],versionPWD
+            jsonPWD = "./browserConfig.json"
+            if os.path.exists(jsonPWD):
+                with open(jsonPWD,"r") as load_f:
+                    load_dict = json.load(load_f)
+                    appPWD = os.getcwd()
+                    versionPWD = appPWD+load_dict[browserType][str(version)].replace("/", "\\")
+                    return load_dict[browserType],versionPWD
+            else:
+                tkinter.messagebox.showwarning('警告', '请将browserConfig.json移到程序相同路径下')
         else:
             # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
             appPWD = os.path.abspath(sys.argv[0]).split("installApplication")[0]
             jsonPWD = appPWD+"browserConfig.json"
-            with open(jsonPWD,"r") as load_f:
-                load_dict = json.load(load_f)
-                versionPWD = appPWD+load_dict[browserType][str(version)]
-                return load_dict[browserType],versionPWD
+            if os.path.exists(jsonPWD):
+                with open(jsonPWD,"r") as load_f:
+                    load_dict = json.load(load_f)
+                    versionPWD = appPWD+load_dict[browserType][str(version)]
+                    print(versionPWD)
+                    return load_dict[browserType],versionPWD
+            else:
+                tkinter.messagebox.showwarning('警告', '请将browserConfig.json移到程序相同路径下')
     except:
-        tkinter.messagebox.showwarning('警告', '请将browserConfig.json移到程序相同路径下或者json文件格式有问题')
+        tkinter.messagebox.showwarning('警告', 'json文件格式有问题')
 def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
     if sendChromeAddress.get() != "":
         if re.match("http",sendChromeAddress.get()):

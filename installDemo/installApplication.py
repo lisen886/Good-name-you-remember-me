@@ -147,7 +147,7 @@ def getJsonData(browserType,version):
                 versionPWD = appPWD+load_dict[browserType][str(version)]
                 return load_dict[browserType],versionPWD
     except:
-        tkinter.messagebox.showwarning('警告', '请将browserConfig.json移到程序相同路径下')
+        tkinter.messagebox.showwarning('警告', '请将browserConfig.json移到程序相同路径下或者json文件格式有问题')
 def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
     if sendChromeAddress.get() != "":
         if re.match("http",sendChromeAddress.get()):

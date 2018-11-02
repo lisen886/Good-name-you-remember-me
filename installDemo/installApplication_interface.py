@@ -3,7 +3,7 @@
 import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox
-import os,re,sys,platform
+import os,re,sys,platform,json
 if sys.version < "3":
     import urllib2
 else:
@@ -37,18 +37,18 @@ firefox = {
 }
 
 mac_chrome = {
-    "49":r".\49.0.2623.13_chrome64_dev_osx_installer.dmg"
+    "49":r"./49.0.2623.13_chrome64_dev_osx_installer.dmg"
 }
 mac_firefox = {
-    "56":r".\firefox\Firefox56.0.dmg",
-    "57":r".\firefox\Firefox57.0.dmg",
-    "58":r".\firefox\Firefox58.0.dmg",
-    "59":r".\firefox\Firefox59.0.dmg",
-    "60":r".\firefox\Firefox60.0.dmg",
-    "61":r".\firefox\Firefox61.0.dmg",
-    "62":r".\firefox\Firefox62.0.dmg",
-    "63":r".\firefox\Firefox63.0.dmg",
-    "64":r".\firefox\Firefox64.0b5.dmg"
+    "56":r"./Firefox56.0.dmg",
+    "57":r"./Firefox57.0.dmg",
+    "58":r"./Firefox58.0.dmg",
+    "59":r"./Firefox59.0.dmg",
+    "60":r"./Firefox60.0.dmg",
+    "61":r"./Firefox61.0.dmg",
+    "62":r"./Firefox62.0.dmg",
+    "63":r"./Firefox63.0.dmg",
+    "64":r"./Firefox64.0b5.dmg"
 }
 
 def execInstallWinCMD(pwd):
@@ -185,11 +185,11 @@ def install_firefox_on_mac(browserPackage):
                 try:
                     state = exec_install_cmd_on_mac(versionPWD,Btype="Firefox")
                     if state == False:
-                        print("use exe to install failed")
+                        print("use dic to install failed")
                     else:
-                        print("use exe to install successed")
+                        print("use dic to install successed")
                 except:
-                    print("use exe to install failed")
+                    print("use dic to install failed")
             else:
                 print("This version of the file does not exist")
         else:
@@ -204,7 +204,7 @@ def exec_install_cmd_on_mac(pwd,Btype):
         os.system("hdiutil detach /Volumes/Google\ Chrome/")
         print ("install Chrome success ")
     elif Btype == "Firefox":
-        os.system("rm -rf /Applications/Firefox/")
+        os.system("rm -rf /Applications/Firefox.app/")
         os.system("cp -r /Volumes/Firefox/Firefox.app/ /Applications/Firefox.app/")
         os.system("hdiutil detach /Volumes/Firefox/")
         print ("install Firefox success")
@@ -212,16 +212,22 @@ def exec_install_cmd_on_mac(pwd,Btype):
         print("unsupport this browser to install")
 
 def uninstall_chrome_on_mac():
-    cmd = r'"rm -rf /Applications/Google\ Chrome.app'
+    cmd = "rm -rf /Applications/Google\ Chrome.app/"
     f = os.system(cmd)
     if str(f) != "0":
+        print("uninstall mac_chrome failed")
         return False
+    else:
+        print("uninstall mac_chrome sucsess")
 
 def uninstall_firefox_on_mac():
-    cmd = r'"rm -rf /Applications/Firefox.app/'
+    cmd = "rm -rf /Applications/Firefox.app/"
     f = os.system(cmd)
     if str(f) != "0":
+        print("uninstall mac_firefox failed")
         return False
+    else:
+        print("uninstall mac_firefox success")
 
 def downloadPackage(url):
     # http://10.80.0.160:8888/Firefox60.0.exe
@@ -252,3 +258,17 @@ def downloadPackage(url):
         else:
             request.urlretrieve(url,"%s"%packagePWD)
     return packagePWD
+
+def getJsonData(browserType,version):
+    with open("./browserConfig.json","r") as load_f:
+        load_dict = json.load(load_f)
+        print(load_dict[browserType][str(version)])
+if __name__ == "__main__":
+    print("test interface")
+    # install_chrome_on_mac("http://10.80.0.160:8888/AgoraMacInstall/chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg")
+    # install_chrome_on_mac("/tmp/49.0.2623.13_chrome64_dev_osx_installer.dmg")
+    # uninstall_chrome_on_mac()
+    # install_firefox_on_mac("http://10.80.0.160:8888/AgoraMacInstall/firefox/Firefox63.0.dmg")
+    # install_firefox_on_mac("/tmp/Firefox63.0.dmg")
+    # uninstall_firefox_on_mac()
+    getJsonData("winchromeList","59")

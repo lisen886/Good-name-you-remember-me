@@ -16,22 +16,30 @@ def execInstallCMD(pwd):
         return False
 
 def execUninstallFirefoxCMD():
-    cmd = r'"C:\Program Files\Mozilla Firefox\uninstall\helper.exe" /S'
-    f = os.system(cmd)
-    if str(f) != "0":
-        return False
+    askStatus = tkinter.messagebox.askyesno('提示', '是否卸载浏览器')
+    if askStatus == True:
+        cmd = r'"C:\Program Files\Mozilla Firefox\uninstall\helper.exe" /S'
+        f = os.system(cmd)
+        if str(f) != "0":
+            return False
+    else:
+        return "cancle"
 
 def execUninstallChromeCMD():
-    os.system("taskkill /F /IM chrome.exe /T")
-    get_version_cmd = r'wmic datafile where name="C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" get Version /value'
-    f = os.popen(get_version_cmd)
-    out = f.read()
-    f.close()
-    chrome_version = out.split("=")[-1].strip()
-    uninstallchrome_cmd = "C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\" + str(chrome_version) + "\\Installer\\setup.exe --uninstall --multi-install --chrome"
-    f = os.system(uninstallchrome_cmd)
-    if str(f) != "0" and str(f) != "19":
-        return False
+    askStatus = tkinter.messagebox.askyesno('提示', '是否卸载浏览器')
+    if askStatus == True:
+        os.system("taskkill /F /IM chrome.exe /T")
+        get_version_cmd = r'wmic datafile where name="C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe" get Version /value'
+        f = os.popen(get_version_cmd)
+        out = f.read()
+        f.close()
+        chrome_version = out.split("=")[-1].strip()
+        uninstallchrome_cmd = "C:\\Users\\%Username%\\AppData\\Local\\Google\\Chrome\\Application\\" + str(chrome_version) + "\\Installer\\setup.exe --uninstall --multi-install --chrome"
+        f = os.system(uninstallchrome_cmd)
+        if str(f) != "0" and str(f) != "19":
+            return False
+    else:
+        return "cancle"
 # *********************** macOS ***********************#
 detachDiskTempList = []
 def execInstallCMD_MACOS(pwd,Btype):

@@ -9,48 +9,6 @@ if sys.version < "3":
 else:
     # 因为打包程序没法使用urllib，改用urllib2
     from urllib import request
-# chrome = {
-#     "49":r".\chrome\49.0.2623.75_chrome64_stable_windows_installer.exe",
-#     "58":r".\chrome\58.0.3029.81_chrome64_stable_windows_installer.exe",
-#     "59":r".\chrome\59.0.3071.25_chrome64_dev_windows_installer.exe",
-#     "60":r".\chrome\60.0.3112.113_chrome64_stable_windows_installer.exe",
-#     "61":r".\chrome\61.0.3163.79_chrome64_stable_windows_installer.exe",
-#     "62":r".\chrome\62.0.3202.62_chrome64_stable_windows_installer.exe",
-#     "63":r".\chrome\63.0.3239.132_chrome64_stable_windows_installer.exe",
-#     "64":r".\chrome\64.0.3282.140_chrome64_stable_windows_installer.exe",
-#     "65":r".\chrome\65.0.3325.162_chrome64_stable_windows_installer.exe",
-#     "66":r".\chrome\66.0.3359.139_chrome64_stable_windows_installer.exe",
-#     "67":r".\chrome\67.0.3396.87_chrome64_stable_windows_installer.exe",
-#     "68":r".\chrome\68.0.3440.106_chrome64_stable_windows_installer.exe",
-#     "69":r".\chrome\69.0.3497.81_chrome64_stable_windows_installer.exe"
-# }
-# firefox = {
-#     "56":r".\firefox\Firefox56.0.exe",
-#     "57":r".\firefox\Firefox57.0.exe",
-#     "58":r".\firefox\Firefox58.0.exe",
-#     "59":r".\firefox\Firefox59.0.exe",
-#     "60":r".\firefox\Firefox60.0.exe",
-#     "61":r".\firefox\Firefox61.0.exe",
-#     "62":r".\firefox\Firefox62.0.exe",
-#     "63":r".\firefox\Firefox63.0.exe",
-#     "64":r".\firefox\Firefox64.0b5.exe"
-# }
-# mac_chrome = {
-#     # "49":r"./chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
-#     "49":r"chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
-# }
-# mac_firefox = {
-#     "56":r"./firefox/Firefox56.0.dmg",
-#     "57":r"./firefox/Firefox57.0.dmg",
-#     "58":r"./firefox/Firefox58.0.dmg",
-#     "59":r"./firefox/Firefox59.0.dmg",
-#     "60":r"./firefox/Firefox60.0.dmg",
-#     "61":r"./firefox/Firefox61.0.dmg",
-#     "62":r"./firefox/Firefox62.0.dmg",
-#     "63":r"./firefox/Firefox63.0.dmg",
-#     "64":r"./firefox/Firefox64.0b5.dmg"
-# }
-# *********************** windows ***********************#
 def execInstallCMD(pwd):
     cmd = "start /wait "+pwd+" /S"
     f = os.system(cmd)
@@ -173,9 +131,23 @@ def downloadPackage(url):
             request.urlretrieve(url,"%s"%packagePWD)
     return packagePWD
 def getJsonData(browserType,version):
-    with open("./browserConfig.json","r") as load_f:
-        load_dict = json.load(load_f)
-        return load_dict[browserType],load_dict[browserType][str(version)]
+    try:
+        if platform.system() == "Windows":
+            with open("./browserConfig.json","r") as load_f:
+                load_dict = json.load(load_f)
+                appPWD = os.getcwd()
+                versionPWD = appPWD+load_dict[browserType][str(version)].replace("/", "\\")
+                return load_dict[browserType],versionPWD
+        else:
+            # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
+            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
+            jsonPWD = appPWD+"/browserConfig.json"
+            with open(jsonPWD,"r") as load_f:
+                load_dict = json.load(load_f)
+                versionPWD = appPWD+load_dict[browserType][str(version)]
+                return load_dict[browserType],versionPWD
+    except:
+        tkinter.messagebox.showwarning('警告', '请将browserConfig.json移到程序相同路径下或者json文件格式有问题')
 def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
     if sendChromeAddress.get() != "":
         if re.match("http",sendChromeAddress.get()):
@@ -227,10 +199,6 @@ def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
                 versionPWD = macChromeVerionPWD
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
-        if platform.system() != "Windows":
-            # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
-            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
-            versionPWD = appPWD+versionPWD
         if os.path.exists(versionPWD):
             try:
                 if platform.system() == "Windows":
@@ -299,10 +267,6 @@ def clickMeInstallFirefox():
                 versionPWD = macFirefoxVerionPWD
             else:
                 tkinter.messagebox.showwarning('警告', '程序字典中缺失该版本的键值')
-        if platform.system() != "Windows":
-            # mac 打包后os.getcwd() 不可用，，，改成了这种S13的操作
-            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
-            versionPWD = appPWD+versionPWD
         if os.path.exists(versionPWD):
             try:
                 if platform.system() == "Windows":

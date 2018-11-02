@@ -173,9 +173,22 @@ def downloadPackage(url):
             request.urlretrieve(url,"%s"%packagePWD)
     return packagePWD
 def getJsonData(browserType,version):
-    with open("./browserConfig.json","r") as load_f:
-        load_dict = json.load(load_f)
-        return load_dict[browserType],load_dict[browserType][str(version)]
+    try:
+        if sys.platform == "Windows":
+            with open("browserConfig.json","r") as load_f:
+                load_dict = json.load(load_f)
+                appPWD = os.getcwd()
+                versionPWD = appPWD+load_dict[browserType][str(version)]
+                return load_dict[browserType],versionPWD
+        else:
+            appPWD = os.path.abspath(sys.argv[0]).split("installApplication.app")[0]
+            jsonPWD = appPWD+"/browserConfig.json"
+            with open(jsonPWD,"r") as load_f:
+                load_dict = json.load(load_f)
+                versionPWD = appPWD+load_dict[browserType][str(version)]
+                return load_dict[browserType],versionPWD
+    except:
+        tkinter.messagebox.showwarning('警告', '请将browserConfig.json移到程序相同路径下')
 def clickMeInstallChrome():  # 当acction被点击时,该函数则生效
     if sendChromeAddress.get() != "":
         if re.match("http",sendChromeAddress.get()):

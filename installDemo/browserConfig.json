@@ -15,7 +15,7 @@
             "68": "./chrome/68.0.3440.106_chrome64_stable_windows_installer.exe",
             "69": "./chrome/69.0.3497.81_chrome64_stable_windows_installer.exe"
         },
-  "winfirefoxList":[
+  "winfirefoxList":
     {
         "56":"./firefox/Firefox56.0.exe",
         "57":"./firefox/Firefox57.0.exe",
@@ -27,13 +27,13 @@
         "63":"./firefox/Firefox63.0.exe",
         "64":"./firefox/Firefox64.0b5.exe"
     }
-  ],
-  "macchromeList":[
+  ,
+  "macchromeList":
     {
         "49":"chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
     }
-  ] ,
-  "macfirefoxList":[
+  ,
+  "macfirefoxList":
     {
         "56":"firefox/Firefox56.0.dmg",
         "57":"firefox/Firefox57.0.dmg",
@@ -45,5 +45,4 @@
         "63":"firefox/Firefox63.0.dmg",
         "64":"firefox/Firefox64.0b5.dmg"
     }
-  ]
 }

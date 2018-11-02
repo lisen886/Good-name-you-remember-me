@@ -29,7 +29,18 @@
     },
   "macchromeList":
     {
-        "49":"chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg"
+        "49":"chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg",
+        "58":"chrome/58.dmg",
+        "59":"chrome/59.dmg",
+        "61":"chrome/61.dmg",
+        "62":"chrome/62.dmg",
+        "63":"chrome/63.dmg",
+        "64":"chrome/64.dmg",
+        "65":"chrome/65.dmg",
+        "66":"chrome/66.dmg",
+        "67":"chrome/67.dmg",
+        "68":"chrome/68.dmg",
+        "69":"chrome/69.dmg"
     },
   "macfirefoxList":
     {

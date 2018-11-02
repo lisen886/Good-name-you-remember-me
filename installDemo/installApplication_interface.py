@@ -132,6 +132,7 @@ def install_chrome_on_mac(browserPackage,UseDicTag=False):
             print("use http way to install failed ")
     elif UseDicTag is True :
         versionPWD = getJsonData("macchromeList")[browserPackage]
+        print(versionPWD)
         # if str(browserPackage) in macChromeDict:
         try:
             state = exec_install_cmd_on_mac(versionPWD, Btype="Chrome")
@@ -152,43 +153,38 @@ def install_chrome_on_mac(browserPackage,UseDicTag=False):
             print("use location station to install failed")
 
 
-def install_firefox_on_mac(browserPackage):
-    if browserPackage != "":
-        if re.match("http",browserPackage):
-            packagePWD = downloadPackage(browserPackage)
-            try:
-                state = exec_install_cmd_on_mac(packagePWD,Btype="Firefox")
-                if state == False:
-                    print("use http way to install failed")
-                else:
-                    print("use http way to install success")
-            except:
-                print("use http way to install failed ")
-        else:
-            try:
-                state = exec_install_cmd_on_mac(browserPackage,Btype="Firefox")
-                if state == False:
-                    print("use location station to install failed")
-                else:
-                    print("use location station to install success")
-            except:
-                print("use location station to install failed")
-    else:
-        if str(browserPackage) in mac_firefox:
-            versionPWD = mac_firefox[str(browserPackage)]
-            if os.path.exists(versionPWD):
-                try:
-                    state = exec_install_cmd_on_mac(versionPWD,Btype="Firefox")
-                    if state == False:
-                        print("use dic to install failed")
-                    else:
-                        print("use dic to install successed")
-                except:
-                    print("use dic to install failed")
+def install_firefox_on_mac(browserPackage,UseDicTag=False):
+    if re.match("http",browserPackage):
+        packagePWD = downloadPackage(browserPackage)
+        try:
+            state = exec_install_cmd_on_mac(packagePWD,Btype="Firefox")
+            if state == False:
+                print("use http way to install failed")
             else:
-                print("This version of the file does not exist")
-        else:
-            print("The dict is missing this value")
+                print("use http way to install success")
+        except:
+            print("use http way to install failed ")
+    elif UseDicTag is True :
+        versionPWD = getJsonData("macfirefoxList")[browserPackage]
+        print(versionPWD)
+        # if str(browserPackage) in macChromeDict:
+        try:
+            state = exec_install_cmd_on_mac(versionPWD, Btype="Firefox")
+            if state == False:
+                print("use dic to install failed")
+            else:
+                print("use dic to install success")
+        except:
+            print("version not exit")
+    else:
+        try:
+            state = exec_install_cmd_on_mac(browserPackage,Btype="Firefox")
+            if state == False:
+                print("use location station to install failed")
+            else:
+                print("use location station to install success")
+        except:
+            print("use location station to install failed")
 
 def exec_install_cmd_on_mac(pwd,Btype):
     attachCMD = "hdiutil attach " + pwd
@@ -267,10 +263,10 @@ def getJsonData(browserType):
 if __name__ == "__main__":
     print("test interface")
     # install_chrome_on_mac("http://10.80.0.160:8888/AgoraMacInstall/chrome/49.0.2623.13_chrome64_dev_osx_installer.dmg")
-    install_chrome_on_mac("/tmp/49.0.2623.13_chrome64_dev_osx_installer.dmg")
+    # install_chrome_on_mac("/tmp/49.0.2623.13_chrome64_dev_osx_installer.dmg")
     # install_chrome_on_mac(browserPackage="49",UseDicTag=True)
     # uninstall_chrome_on_mac()
-    # install_firefox_on_mac("http://10.80.0.160:8888/AgoraMacInstall/firefox/Firefox63.0.dmg")
+    install_firefox_on_mac("http://10.80.0.160:8888/AgoraMacInstall/firefox/Firefox63.0.dmg")
     # install_firefox_on_mac("/tmp/Firefox63.0.dmg")
     # uninstall_firefox_on_mac()
     # print(getJsonData("macchromeList")["49"])

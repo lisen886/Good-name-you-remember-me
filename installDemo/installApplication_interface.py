@@ -29,10 +29,9 @@ def install_chrome_on_win(browserPackage,useDicTag=False):
                 print("use http way to install success")
         except:
             print("use http way to install failed ")
-    elif useDicTag is True :
+    # elif useDicTag is True :
+    elif getJsonData("winchromeList").has_key(browserPackage):
         versionPWD = getJsonData("winchromeList")[browserPackage]
-        print(versionPWD)
-        # if str(browserPackage) in macChromeDict:
         try:
             pwd = os.getcwd()
             cmd = "start /wait " + pwd + versionPWD + " /S"
@@ -64,7 +63,8 @@ def install_firefox_on_win(browserPackage,useDicTag=False):
                 print("use http way to install success")
         except:
             print("use http way to install failed ")
-    elif useDicTag is True :
+    # elif useDicTag is True :
+    elif getJsonData("winfirefoxList").has_key(browserPackage):
         versionPWD = getJsonData("winfirefoxList")[browserPackage]
         # if str(browserPackage) in macChromeDict:
         try:
@@ -121,7 +121,8 @@ def install_chrome_on_mac(browserPackage,UseDicTag=False):
                 print("use http way to install success")
         except:
             print("use http way to install failed ")
-    elif UseDicTag is True :
+    # elif UseDicTag is True :
+    elif getJsonData("macchromeList").has_key(browserPackage):
         versionPWD = getJsonData("macchromeList")[browserPackage]
         print(versionPWD)
         # if str(browserPackage) in macChromeDict:
@@ -155,7 +156,8 @@ def install_firefox_on_mac(browserPackage,UseDicTag=False):
                 print("use http way to install success")
         except:
             print("use http way to install failed ")
-    elif UseDicTag is True :
+    # elif UseDicTag is True :
+    elif getJsonData("macfirefoxList").has_key(browserPackage):
         versionPWD = getJsonData("macfirefoxList")[browserPackage]
         print(versionPWD)
         # if str(browserPackage) in macChromeDict:
@@ -262,5 +264,5 @@ if __name__ == "__main__":
 
     # uninstall_firefox_on_win()
     # install_firefox_on_win("http://10.80.0.160:8888/AgoraWinInstall/firefox/Firefox63.0.exe")
-    # install_firefox_on_win("60",useDicTag=True)
-    install_firefox_on_win("D:\\test_install\\FirefoxSetup64.0b4.exe")
+    install_firefox_on_mac("63")
+    # install_firefox_on_win("D:\\test_install\\FirefoxSetup64.0b4.exe")

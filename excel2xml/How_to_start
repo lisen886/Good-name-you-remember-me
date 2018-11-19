@@ -1,0 +1,5 @@
+使用说明
+  1. 将需要转换的excel文件(例如excel2xmlDemo.xlsx) 复制到程序相同文件夹
+  2. chmod +x excel2xml 赋权限
+  3. 双击excel2xml即可生成xml文件
+  4. 将生成的xml文件导入到Testlink

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # python3
-import xlrd,os
-from xml.etree import ElementTree as ET
+import xlrd,os,sys
 from lxml import etree as lxmlET
 
 def generate_xml(file):
@@ -66,11 +65,6 @@ def generate_xml(file):
                 kw = lxmlET.SubElement(kws, 'keyword', {'name': kwList[kwi]})
                 lxmlET.SubElement(kw, 'notes').text = lxmlET.CDATA(kwList[kwi])
             continue
-            # for j in range(1,sheet.ncols):
-                # if (i,j) in merged_cell_dict.keys():
-                #     print(merged_cell_dict[(i,j)])
-                # else:
-                #     print(sheet.cell_value(i,j))
 
         step_ts_node = lxmlET.SubElement(childrenFolder_node, 'testcase', {'name': sheet.cell_value(i, 1)})
         lxmlET.SubElement(step_ts_node, 'node_order').text = lxmlET.CDATA('')

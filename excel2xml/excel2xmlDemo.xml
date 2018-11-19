@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="">
+  <node_order><![CDATA[]]></node_order>
+  <details><![CDATA[]]></details>
+  <testsuite name="Independent Audio/Video">
+    <node_order><![CDATA[]]></node_order>
+    <details><![CDATA[]]></details>
+    <testsuite name="压力测试">
+      <node_order><![CDATA[]]></node_order>
+      <details><![CDATA[]]></details>
+      <testcase name="压力测试的用例1">
+        <node_order><![CDATA[]]></node_order>
+        <externalid><![CDATA[]]></externalid>
+        <version><![CDATA[1]]></version>
+        <summary><![CDATA[]]></summary>
+        <preconditions><![CDATA[压力12h]]></preconditions>
+        <execution_type><![CDATA[1]]></execution_type>
+        <importance><![CDATA[1]]></importance>
+        <status><![CDATA[7]]></status>
+        <steps>
+          <step>
+            <step_number><![CDATA[1]]></step_number>
+            <actions><![CDATA[第一步压力测试]]></actions>
+            <expectedresults><![CDATA[第一步压力测试的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+          <step>
+            <step_number><![CDATA[2]]></step_number>
+            <actions><![CDATA[第二步压力测试]]></actions>
+            <expectedresults><![CDATA[第二步压力测试的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+        </steps>
+        <keywords>
+          <keyword name="VP8">
+            <notes><![CDATA[VP8]]></notes>
+          </keyword>
+          <keyword name="H264">
+            <notes><![CDATA[H264]]></notes>
+          </keyword>
+        </keywords>
+      </testcase>
+    </testsuite>
+    <testsuite name="兼容测试">
+      <node_order><![CDATA[]]></node_order>
+      <details><![CDATA[]]></details>
+      <testcase name="兼容测试的用例1">
+        <node_order><![CDATA[]]></node_order>
+        <externalid><![CDATA[]]></externalid>
+        <version><![CDATA[1]]></version>
+        <summary><![CDATA[]]></summary>
+        <preconditions><![CDATA[]]></preconditions>
+        <execution_type><![CDATA[1]]></execution_type>
+        <importance><![CDATA[3]]></importance>
+        <status><![CDATA[7]]></status>
+        <steps>
+          <step>
+            <step_number><![CDATA[1]]></step_number>
+            <actions><![CDATA[第一步兼容测试]]></actions>
+            <expectedresults><![CDATA[第一步兼容测试的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+          <step>
+            <step_number><![CDATA[2]]></step_number>
+            <actions><![CDATA[第二步兼容测试]]></actions>
+            <expectedresults><![CDATA[第二步兼容测试的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+        </steps>
+        <keywords>
+          <keyword name="H264">
+            <notes><![CDATA[H264]]></notes>
+          </keyword>
+          <keyword name="VP8">
+            <notes><![CDATA[VP8]]></notes>
+          </keyword>
+        </keywords>
+      </testcase>
+    </testsuite>
+    <testsuite name="功能测试">
+      <node_order><![CDATA[]]></node_order>
+      <details><![CDATA[]]></details>
+      <testcase name="功能测试的用例1">
+        <node_order><![CDATA[]]></node_order>
+        <externalid><![CDATA[]]></externalid>
+        <version><![CDATA[1]]></version>
+        <summary><![CDATA[]]></summary>
+        <preconditions><![CDATA[]]></preconditions>
+        <execution_type><![CDATA[1]]></execution_type>
+        <importance><![CDATA[2]]></importance>
+        <status><![CDATA[7]]></status>
+        <steps>
+          <step>
+            <step_number><![CDATA[1]]></step_number>
+            <actions><![CDATA[第一步功能测试1]]></actions>
+            <expectedresults><![CDATA[第一步功能测试1的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+          <step>
+            <step_number><![CDATA[2]]></step_number>
+            <actions><![CDATA[第二步功能测试1]]></actions>
+            <expectedresults><![CDATA[第二步功能测试1的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+        </steps>
+        <keywords>
+          <keyword name="VP8">
+            <notes><![CDATA[VP8]]></notes>
+          </keyword>
+        </keywords>
+      </testcase>
+      <testcase name="功能测试的用例2">
+        <node_order><![CDATA[]]></node_order>
+        <externalid><![CDATA[]]></externalid>
+        <version><![CDATA[1]]></version>
+        <summary><![CDATA[]]></summary>
+        <preconditions><![CDATA[]]></preconditions>
+        <execution_type><![CDATA[1]]></execution_type>
+        <importance><![CDATA[3]]></importance>
+        <status><![CDATA[7]]></status>
+        <steps>
+          <step>
+            <step_number><![CDATA[1]]></step_number>
+            <actions><![CDATA[第一步功能测试2]]></actions>
+            <expectedresults><![CDATA[第一步功能测试2的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+          <step>
+            <step_number><![CDATA[2]]></step_number>
+            <actions><![CDATA[第二步功能测试2]]></actions>
+            <expectedresults><![CDATA[第二步功能测试2的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+        </steps>
+        <keywords>
+          <keyword name="VP8">
+            <notes><![CDATA[VP8]]></notes>
+          </keyword>
+        </keywords>
+      </testcase>
+      <testcase name="功能模块的用例3">
+        <node_order><![CDATA[]]></node_order>
+        <externalid><![CDATA[]]></externalid>
+        <version><![CDATA[1]]></version>
+        <summary><![CDATA[]]></summary>
+        <preconditions><![CDATA[]]></preconditions>
+        <execution_type><![CDATA[1]]></execution_type>
+        <importance><![CDATA[1]]></importance>
+        <status><![CDATA[7]]></status>
+        <steps>
+          <step>
+            <step_number><![CDATA[1]]></step_number>
+            <actions><![CDATA[第一步功能测试3]]></actions>
+            <expectedresults><![CDATA[第一步功能测试3的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+          <step>
+            <step_number><![CDATA[2]]></step_number>
+            <actions><![CDATA[第二步功能测试3]]></actions>
+            <expectedresults><![CDATA[第二步功能测试3的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+        </steps>
+        <keywords>
+          <keyword name="VP8">
+            <notes><![CDATA[VP8]]></notes>
+          </keyword>
+        </keywords>
+      </testcase>
+    </testsuite>
+    <testcase name="没有模块的用例1">
+      <node_order><![CDATA[]]></node_order>
+      <externalid><![CDATA[]]></externalid>
+      <version><![CDATA[1]]></version>
+      <summary><![CDATA[]]></summary>
+      <preconditions><![CDATA[]]></preconditions>
+      <execution_type><![CDATA[1]]></execution_type>
+      <importance><![CDATA[2]]></importance>
+      <status><![CDATA[7]]></status>
+      <steps>
+        <step>
+          <step_number><![CDATA[1]]></step_number>
+          <actions><![CDATA[第一步没有模块]]></actions>
+          <expectedresults><![CDATA[第一步没有模块的预期结果]]></expectedresults>
+          <execution_type><![CDATA[1]]></execution_type>
+        </step>
+        <step>
+          <step_number><![CDATA[2]]></step_number>
+          <actions><![CDATA[第二步没有模块]]></actions>
+          <expectedresults><![CDATA[第二步没有模块的预期结果]]></expectedresults>
+          <execution_type><![CDATA[1]]></execution_type>
+        </step>
+      </steps>
+      <keywords>
+        <keyword name="VP8">
+          <notes><![CDATA[VP8]]></notes>
+        </keyword>
+      </keywords>
+    </testcase>
+    <testsuite name="性能测试">
+      <node_order><![CDATA[]]></node_order>
+      <details><![CDATA[]]></details>
+      <testcase name="性能模块的用例1">
+        <node_order><![CDATA[]]></node_order>
+        <externalid><![CDATA[]]></externalid>
+        <version><![CDATA[1]]></version>
+        <summary><![CDATA[]]></summary>
+        <preconditions><![CDATA[]]></preconditions>
+        <execution_type><![CDATA[1]]></execution_type>
+        <importance><![CDATA[3]]></importance>
+        <status><![CDATA[7]]></status>
+        <steps>
+          <step>
+            <step_number><![CDATA[1]]></step_number>
+            <actions><![CDATA[第一步性能模块1]]></actions>
+            <expectedresults><![CDATA[第一步性能模块1的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+          <step>
+            <step_number><![CDATA[2]]></step_number>
+            <actions><![CDATA[第二步性能模块]]></actions>
+            <expectedresults><![CDATA[第二步性能模块1的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+        </steps>
+        <keywords>
+          <keyword name="VP8">
+            <notes><![CDATA[VP8]]></notes>
+          </keyword>
+        </keywords>
+      </testcase>
+      <testcase name="性能模块的用例2">
+        <node_order><![CDATA[]]></node_order>
+        <externalid><![CDATA[]]></externalid>
+        <version><![CDATA[1]]></version>
+        <summary><![CDATA[]]></summary>
+        <preconditions><![CDATA[]]></preconditions>
+        <execution_type><![CDATA[1]]></execution_type>
+        <importance><![CDATA[1]]></importance>
+        <status><![CDATA[7]]></status>
+        <steps>
+          <step>
+            <step_number><![CDATA[1]]></step_number>
+            <actions><![CDATA[第一步性能模块2]]></actions>
+            <expectedresults><![CDATA[第一步性能模块2的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+          <step>
+            <step_number><![CDATA[2]]></step_number>
+            <actions><![CDATA[第二步性能模块2]]></actions>
+            <expectedresults><![CDATA[第二步性能模块2的预期结果]]></expectedresults>
+            <execution_type><![CDATA[1]]></execution_type>
+          </step>
+        </steps>
+        <keywords>
+          <keyword name="VP8">
+            <notes><![CDATA[VP8]]></notes>
+          </keyword>
+        </keywords>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuite>

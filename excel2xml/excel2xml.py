@@ -2,6 +2,9 @@
 # python3
 import xlrd,os,sys
 from lxml import etree as lxmlET
+# windows打包时需要解决默认编码是ascii
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 def generate_xml(file):
     workbook = xlrd.open_workbook(file)
@@ -46,7 +49,7 @@ def generate_xml(file):
             lxmlET.SubElement(step_ts_node, 'summary').text = lxmlET.CDATA('')
             lxmlET.SubElement(step_ts_node, 'preconditions').text = lxmlET.CDATA(sheet.cell_value(i, 2))
             lxmlET.SubElement(step_ts_node, 'execution_type').text = lxmlET.CDATA('1')
-            lxmlET.SubElement(step_ts_node, 'importance').text = lxmlET.CDATA(importanceDict[sheet.cell_value(i, 5)])
+            lxmlET.SubElement(step_ts_node, 'importance').text = lxmlET.CDATA(importanceDict[str(sheet.cell_value(i, 5))])
             lxmlET.SubElement(step_ts_node, 'status').text = lxmlET.CDATA('7')
 
             steps = lxmlET.SubElement(step_ts_node, 'steps')
@@ -73,7 +76,7 @@ def generate_xml(file):
         lxmlET.SubElement(step_ts_node, 'summary').text = lxmlET.CDATA('')
         lxmlET.SubElement(step_ts_node, 'preconditions').text = lxmlET.CDATA(sheet.cell_value(i, 2))
         lxmlET.SubElement(step_ts_node, 'execution_type').text = lxmlET.CDATA('1')
-        lxmlET.SubElement(step_ts_node, 'importance').text = lxmlET.CDATA(importanceDict[sheet.cell_value(i, 5)])
+        lxmlET.SubElement(step_ts_node, 'importance').text = lxmlET.CDATA(importanceDict[str(sheet.cell_value(i, 5))])
         lxmlET.SubElement(step_ts_node, 'status').text = lxmlET.CDATA('7')
         steps = lxmlET.SubElement(step_ts_node, 'steps')
         stepList = sheet.cell_value(i, 3).split("\n")

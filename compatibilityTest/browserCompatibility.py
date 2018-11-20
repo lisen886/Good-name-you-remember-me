@@ -75,12 +75,12 @@ def main(browserType,version):
         install_firefox_on_mac(version)
         testCase(browserType, version)
     elif browserType == "winchrome":
-        uninstall_chrome_on_mac()
-        install_chrome_on_mac(version)
+        uninstall_chrome_on_win()
+        install_chrome_on_win(version)
         testCase(browserType,version)
     elif browserType == "winfirefox":
-        uninstall_firefox_on_mac()
-        install_firefox_on_mac(version)
+        uninstall_firefox_on_win()
+        install_firefox_on_win(version)
         testCase(browserType, version)
 
 def test(i):

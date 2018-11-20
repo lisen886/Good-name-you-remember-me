@@ -30,7 +30,7 @@ def install_chrome_on_win(browserPackage,useDicTag=False):
         except:
             print("use http way to install failed ")
     # elif useDicTag is True :
-    elif getJsonData("winchromeList").has_key(browserPackage):
+    elif browserPackage in getJsonData("winchromeList"):
         versionPWD = getJsonData("winchromeList")[browserPackage]
         try:
             pwd = os.getcwd()
@@ -64,7 +64,7 @@ def install_firefox_on_win(browserPackage,useDicTag=False):
         except:
             print("use http way to install failed ")
     # elif useDicTag is True :
-    elif getJsonData("winfirefoxList").has_key(browserPackage):
+    elif browserPackage in getJsonData("winfirefoxList"):
         versionPWD = getJsonData("winfirefoxList")[browserPackage]
         # if str(browserPackage) in macChromeDict:
         try:
@@ -122,7 +122,7 @@ def install_chrome_on_mac(browserPackage,UseDicTag=False):
         except:
             print("use http way to install failed ")
     # elif UseDicTag is True :
-    elif getJsonData("macchromeList").has_key(browserPackage):
+    elif browserPackage in getJsonData("macchromeList"):
         versionPWD = getJsonData("macchromeList")[browserPackage]
         print(versionPWD)
         # if str(browserPackage) in macChromeDict:
@@ -157,7 +157,7 @@ def install_firefox_on_mac(browserPackage,UseDicTag=False):
         except:
             print("use http way to install failed ")
     # elif UseDicTag is True :
-    elif getJsonData("macfirefoxList").has_key(browserPackage):
+    elif browserPackage in getJsonData("macfirefoxList"):
         versionPWD = getJsonData("macfirefoxList")[browserPackage]
         print(versionPWD)
         # if str(browserPackage) in macChromeDict:

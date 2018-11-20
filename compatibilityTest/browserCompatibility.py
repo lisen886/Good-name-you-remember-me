@@ -83,9 +83,6 @@ def main(browserType,version):
         install_firefox_on_win(version)
         testCase(browserType, version)
 
-def test(i):
-    print(i)
-
 if __name__ == '__main__':
     main("winchrome","66")
     main("winchrome","67")

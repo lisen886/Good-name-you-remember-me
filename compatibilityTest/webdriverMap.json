@@ -1,0 +1,59 @@
+{
+  "winchrome":
+    {
+            "49": "/webdriver/windows/chrome/chromedriver2.21.exe",
+            "58": "/webdriver/windows/chrome/chromedriver2.31.exe",
+            "59": "/webdriver/windows/chrome/chromedriver2.31.exe",
+            "60": "/webdriver/windows/chrome/chromedriver2.31.exe",
+            "61": "/webdriver/windows/chrome/chromedriver2.34.exe",
+            "62": "/webdriver/windows/chrome/chromedriver2.34.exe",
+            "63": "/webdriver/windows/chrome/chromedriver2.34.exe",
+            "64": "/webdriver/windows/chrome/chromedriver2.37.exe",
+            "65": "/webdriver/windows/chrome/chromedriver2.37.exe",
+            "66": "/webdriver/windows/chrome/chromedriver2.37.exe",
+            "67": "/webdriver/windows/chrome/chromedriver2.41.exe",
+            "68": "/webdriver/windows/chrome/chromedriver2.41.exe",
+            "69": "/webdriver/windows/chrome/chromedriver2.41.exe",
+            "70": "/webdriver/windows/chrome/chromedriver2.42.exe"
+        },
+  "winfirefox":
+    {
+        "56":"/webdriver/windows/firefox/geckodriver55+.exe",
+        "57":"/webdriver/windows/firefox/geckodriver57+.exe",
+        "58":"/webdriver/windows/firefox/geckodriver57+.exe",
+        "59":"/webdriver/windows/firefox/geckodriver57+.exe",
+        "60":"/webdriver/windows/firefox/geckodriver57+.exe",
+        "61":"/webdriver/windows/firefox/geckodriver57+.exe",
+        "62":"/webdriver/windows/firefox/geckodriver57+.exe",
+        "63":"/webdriver/windows/firefox/geckodriver57+.exe",
+        "64":"/webdriver/windows/firefox/geckodriver57+.exe"
+    },
+  "macchrome":
+    {
+        "49":"/webdriver/mac/chrome/chromedriver2.21",
+        "58":"/webdriver/mac/chrome/chromedriver2.31",
+        "59":"/webdriver/mac/chrome/chromedriver2.31",
+        "61":"/webdriver/mac/chrome/chromedriver2.34",
+        "62":"/webdriver/mac/chrome/chromedriver2.34",
+        "63":"/webdriver/mac/chrome/chromedriver2.34",
+        "64":"/webdriver/mac/chrome/chromedriver2.37",
+        "65":"/webdriver/mac/chrome/chromedriver2.37",
+        "66":"/webdriver/mac/chrome/chromedriver2.37",
+        "67":"/webdriver/mac/chrome/chromedriver2.41",
+        "68":"/webdriver/mac/chrome/chromedriver2.41",
+        "69":"/webdriver/mac/chrome/chromedriver2.41",
+        "70":"/webdriver/mac/chrome/chromedriver2.42"
+    },
+  "macfirefox":
+    {
+        "56":"/webdriver/mac/firefox/geckodriver55+",
+        "57":"/webdriver/mac/firefox/geckodriver57+",
+        "58":"/webdriver/mac/firefox/geckodriver57+",
+        "59":"/webdriver/mac/firefox/geckodriver57+",
+        "60":"/webdriver/mac/firefox/geckodriver57+",
+        "61":"/webdriver/mac/firefox/geckodriver57+",
+        "62":"/webdriver/mac/firefox/geckodriver57+",
+        "63":"/webdriver/mac/firefox/geckodriver57+",
+        "64":"/webdriver/mac/firefox/geckodriver57+"
+    }
+}

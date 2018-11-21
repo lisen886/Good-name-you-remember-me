@@ -31,31 +31,40 @@ def closeProcess(browserType):
         os.system("taskkill /f /im " + "Firefox" + ".exe")
 
 def openBrowser(browserType,version):
-    MacChromePath = "--user-data-dir=/Users/lisen/Library/Application Support/Google/Chrome"
-    MacFirefoxPath = "/Users/lisen/Library/Application Support/Firefox/Profiles/28mwdrcp.default"
-    WindowsChromePath = r"--user-data-dir=C:\Users\chacha\AppData\Local\Google\Chrome\User Data\Default"
-    WindowsFirefoxPath = r"C:\Users\chacha\AppData\Local\Mozilla\Firefox\Profiles\79g1uvxi.default"
     webdriverPwd = getJson(browserType, version)
     closeProcess(browserType)
     driver =""
     if browserType == "macchrome":
         os.environ["webdriver.Chrome.driver"] = webdriverPwd
+
         macoption = webdriver.ChromeOptions()
-        macoption.add_argument(MacChromePath)
+        prefs = {'profile.default_content_setting_values.media_stream_camera': 1,
+                 'profile.default_content_setting_values.media_stream_mic': 1,
+                 'profile.default_content_setting_values.notifications': 1,
+                 'profile.default_content_setting_values.geolocation': 1}
+        macoption.add_experimental_option('prefs', prefs)
         driver = webdriver.Chrome(executable_path=webdriverPwd, chrome_options=macoption)
     elif browserType == "macfirefox":
         os.environ["webdriver.Firefox.driver"] = webdriverPwd
-        macfirefoxProfile = webdriver.FirefoxProfile(MacFirefoxPath)
-        driver = webdriver.Firefox(executable_path=webdriverPwd, firefox_profile=macfirefoxProfile)
+        macprofile = webdriver.FirefoxProfile()
+        macprofile.set_preference('media.navigator.permission.disabled', True)
+        macprofile.update_preferences()
+        driver = webdriver.Firefox(executable_path=webdriverPwd, firefox_profile=macprofile)
     elif browserType == "winchrome":
         os.environ["webdriver.Chrome.driver"] = webdriverPwd
         winoption = webdriver.ChromeOptions()
-        winoption.add_argument(WindowsChromePath)
+        prefs = {'profile.default_content_setting_values.media_stream_camera': 1,
+                 'profile.default_content_setting_values.media_stream_mic': 1,
+                 'profile.default_content_setting_values.notifications': 1,
+                 'profile.default_content_setting_values.geolocation': 1}
+        winoption.add_experimental_option('prefs', prefs)
         driver = webdriver.Chrome(executable_path=webdriverPwd, chrome_options=winoption)
     elif browserType == "winfirefox":
         os.environ["webdriver.Firefox.driver"] = webdriverPwd
-        winfirefoxProfile = webdriver.FirefoxProfile(WindowsFirefoxPath)
-        driver = webdriver.Firefox(executable_path=webdriverPwd, firefox_profile=winfirefoxProfile)
+        winprofile = webdriver.FirefoxProfile()
+        winprofile.set_preference('media.navigator.permission.disabled', True)
+        winprofile.update_preferences()
+        driver = webdriver.Firefox(executable_path=webdriverPwd, firefox_profile=winprofile)
     return driver
 
 def testCase(browserType,version):
@@ -67,8 +76,8 @@ def testCase(browserType,version):
 
 def main(browserType,version):
     if browserType == "macchrome":
-        uninstall_chrome_on_mac()
-        install_chrome_on_mac(version)
+        # uninstall_chrome_on_mac()
+        # install_chrome_on_mac(version)
         testCase(browserType,version)
     elif browserType == "macfirefox":
         uninstall_firefox_on_mac()
@@ -84,7 +93,8 @@ def main(browserType,version):
         testCase(browserType, version)
 
 if __name__ == '__main__':
-    main("winchrome","66")
-    main("winchrome","67")
-    main("winchrome","68")
-    main("winchrome","69")
+    # main("winchrome","66")
+    # main("winchrome","67")
+    # main("winchrome","68")
+    # main("winchrome","69")
+    main("macchrome","70")

@@ -44,12 +44,14 @@ def openBrowser(browserType,version):
                  'profile.default_content_setting_values.geolocation': 1}
         macoption.add_experimental_option('prefs', prefs)
         driver = webdriver.Chrome(executable_path=webdriverPwd, chrome_options=macoption)
+        print(driver.capabilities['version'])
     elif browserType == "macfirefox":
         os.environ["webdriver.Firefox.driver"] = webdriverPwd
         macprofile = webdriver.FirefoxProfile()
         macprofile.set_preference('media.navigator.permission.disabled', True)
         macprofile.update_preferences()
         driver = webdriver.Firefox(executable_path=webdriverPwd, firefox_profile=macprofile)
+        print(driver.capabilities['browserVersion'])
     elif browserType == "winchrome":
         os.environ["webdriver.Chrome.driver"] = webdriverPwd
         winoption = webdriver.ChromeOptions()
@@ -59,12 +61,14 @@ def openBrowser(browserType,version):
                  'profile.default_content_setting_values.geolocation': 1}
         winoption.add_experimental_option('prefs', prefs)
         driver = webdriver.Chrome(executable_path=webdriverPwd, chrome_options=winoption)
+        print(driver.capabilities['version'])
     elif browserType == "winfirefox":
         os.environ["webdriver.Firefox.driver"] = webdriverPwd
         winprofile = webdriver.FirefoxProfile()
         winprofile.set_preference('media.navigator.permission.disabled', True)
         winprofile.update_preferences()
         driver = webdriver.Firefox(executable_path=webdriverPwd, firefox_profile=winprofile)
+        print(driver.capabilities['browserVersion'])
     return driver
 
 def testCase(browserType,version):

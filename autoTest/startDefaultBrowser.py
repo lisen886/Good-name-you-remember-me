@@ -53,6 +53,9 @@ def startFirefoxBySetOption():
     profile.update_preferences()
     driver = webdriver.Firefox(executable_path=firefox_driver,firefox_profile=profile)
     driver.get("https://webdemo.agora.io/premium_rtc_test_2.5/show.html?channelName=asdsd&videoProfile=480p_4&uid=&uidtype=int&mode=live&codec=vp8&interop_mode=interop_commutication&avmode=0&dynamic=disabled&expiration=0&custom_key=&key=disabled&proxy=disabled&turnServerIP=113.207.108.198&udpPort=3478&tcpPort=3433&username=test&password=111111&forceTurn=disabled&nginxURL=webopt.agorabeckon.com&encrypt=disabled&encryptMode=none&encryptPassword=&preprocessing=disabled")
+    print(driver.capabilities['browserVersion'])
     time.sleep(5)
     driver.quit()
 
+if __name__ == '__main__':
+    startFirefoxBySetOption()

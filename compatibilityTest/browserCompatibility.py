@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import time
 from selenium import webdriver
-from installDemo.installApplication_interface import *
+from installApplication_interface import *
 
 def getJson(browserType,version):
     try:

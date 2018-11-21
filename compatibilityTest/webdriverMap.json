@@ -25,8 +25,8 @@
         "60":"/webdriver/windows/firefox/geckodriver57+.exe",
         "61":"/webdriver/windows/firefox/geckodriver57+.exe",
         "62":"/webdriver/windows/firefox/geckodriver57+.exe",
-        "63":"/webdriver/windows/firefox/geckodriver57+.exe",
-        "64":"/webdriver/windows/firefox/geckodriver57+.exe"
+        "63":"/webdriver/windows/firefox/geckodriver63+.exe",
+        "64":"/webdriver/windows/firefox/geckodriver63+.exe"
     },
   "macchrome":
     {

@@ -49,18 +49,33 @@ def generate_xml(file):
             lxmlET.SubElement(step_ts_node, 'summary').text = lxmlET.CDATA('')
             lxmlET.SubElement(step_ts_node, 'preconditions').text = lxmlET.CDATA(sheet.cell_value(i, 2))
             lxmlET.SubElement(step_ts_node, 'execution_type').text = lxmlET.CDATA('1')
-            lxmlET.SubElement(step_ts_node, 'importance').text = lxmlET.CDATA(importanceDict[str(sheet.cell_value(i, 5))])
+            lxmlET.SubElement(step_ts_node, 'importance').text = lxmlET.CDATA(importanceDict[str(sheet.cell_value(i, 5)).strip()])
             lxmlET.SubElement(step_ts_node, 'status').text = lxmlET.CDATA('7')
 
             steps = lxmlET.SubElement(step_ts_node, 'steps')
-            stepList = sheet.cell_value(i, 3).split("\n")
-            expectRequestList = sheet.cell_value(i, 4).split("\n")
-            for stepi in range(0, len(stepList)):
+            if "\n" not in sheet.cell_value(i, 3):
                 step = lxmlET.SubElement(steps, 'step')
-                lxmlET.SubElement(step, 'step_number').text = lxmlET.CDATA(str(stepi+1))
-                lxmlET.SubElement(step, 'actions').text = lxmlET.CDATA(stepList[stepi])
-                lxmlET.SubElement(step, 'expectedresults').text = lxmlET.CDATA(expectRequestList[stepi])
+                lxmlET.SubElement(step, 'step_number').text = lxmlET.CDATA(str(1))
+                lxmlET.SubElement(step, 'actions').text = lxmlET.CDATA(sheet.cell_value(i, 3))
+                lxmlET.SubElement(step, 'expectedresults').text = lxmlET.CDATA(sheet.cell_value(i, 4))
                 lxmlET.SubElement(step, 'execution_type').text = lxmlET.CDATA('1')
+            else:
+                stepList = sheet.cell_value(i, 3).split("\n")
+                expectRequestList = sheet.cell_value(i, 4).split("\n")
+                if len(stepList) != len(expectRequestList):
+                    for stepi in range(0, len(stepList)):
+                        step = lxmlET.SubElement(steps, 'step')
+                        lxmlET.SubElement(step, 'step_number').text = lxmlET.CDATA(str(stepi + 1))
+                        lxmlET.SubElement(step, 'actions').text = lxmlET.CDATA(stepList[stepi])
+                        lxmlET.SubElement(step, 'execution_type').text = lxmlET.CDATA('1')
+                    lxmlET.SubElement(step, 'expectedresults').text = lxmlET.CDATA(sheet.cell_value(i, 4))
+                else:
+                    for stepi in range(0, len(stepList)):
+                        step = lxmlET.SubElement(steps, 'step')
+                        lxmlET.SubElement(step, 'step_number').text = lxmlET.CDATA(str(stepi+1))
+                        lxmlET.SubElement(step, 'actions').text = lxmlET.CDATA(stepList[stepi])
+                        lxmlET.SubElement(step, 'expectedresults').text = lxmlET.CDATA(expectRequestList[stepi])
+                        lxmlET.SubElement(step, 'execution_type').text = lxmlET.CDATA('1')
 
             kws = lxmlET.SubElement(step_ts_node, 'keywords')
             kwList = sheet.cell_value(i, 6).split("\n")
@@ -76,17 +91,32 @@ def generate_xml(file):
         lxmlET.SubElement(step_ts_node, 'summary').text = lxmlET.CDATA('')
         lxmlET.SubElement(step_ts_node, 'preconditions').text = lxmlET.CDATA(sheet.cell_value(i, 2))
         lxmlET.SubElement(step_ts_node, 'execution_type').text = lxmlET.CDATA('1')
-        lxmlET.SubElement(step_ts_node, 'importance').text = lxmlET.CDATA(importanceDict[str(sheet.cell_value(i, 5))])
+        lxmlET.SubElement(step_ts_node, 'importance').text = lxmlET.CDATA(importanceDict[str(sheet.cell_value(i, 5)).strip()])
         lxmlET.SubElement(step_ts_node, 'status').text = lxmlET.CDATA('7')
         steps = lxmlET.SubElement(step_ts_node, 'steps')
-        stepList = sheet.cell_value(i, 3).split("\n")
-        expectRequestList = sheet.cell_value(i, 4).split("\n")
-        for stepi in range(0, len(stepList)):
+        if "\n" not in sheet.cell_value(i, 3):
             step = lxmlET.SubElement(steps, 'step')
-            lxmlET.SubElement(step, 'step_number').text = lxmlET.CDATA(str(stepi + 1))
-            lxmlET.SubElement(step, 'actions').text = lxmlET.CDATA(stepList[stepi])
-            lxmlET.SubElement(step, 'expectedresults').text = lxmlET.CDATA(expectRequestList[stepi])
+            lxmlET.SubElement(step, 'step_number').text = lxmlET.CDATA(str(1))
+            lxmlET.SubElement(step, 'actions').text = lxmlET.CDATA(sheet.cell_value(i, 3))
+            lxmlET.SubElement(step, 'expectedresults').text = lxmlET.CDATA(sheet.cell_value(i, 4))
             lxmlET.SubElement(step, 'execution_type').text = lxmlET.CDATA('1')
+        else:
+            stepList = sheet.cell_value(i, 3).split("\n")
+            expectRequestList = sheet.cell_value(i, 4).split("\n")
+            if len(stepList) != len(expectRequestList):
+                for stepi in range(0, len(stepList)):
+                    step = lxmlET.SubElement(steps, 'step')
+                    lxmlET.SubElement(step, 'step_number').text = lxmlET.CDATA(str(stepi + 1))
+                    lxmlET.SubElement(step, 'actions').text = lxmlET.CDATA(stepList[stepi])
+                    lxmlET.SubElement(step, 'execution_type').text = lxmlET.CDATA('1')
+                lxmlET.SubElement(step, 'expectedresults').text = lxmlET.CDATA(sheet.cell_value(i, 4))
+            else:
+                for stepi in range(0, len(stepList)):
+                    step = lxmlET.SubElement(steps, 'step')
+                    lxmlET.SubElement(step, 'step_number').text = lxmlET.CDATA(str(stepi + 1))
+                    lxmlET.SubElement(step, 'actions').text = lxmlET.CDATA(stepList[stepi])
+                    lxmlET.SubElement(step, 'expectedresults').text = lxmlET.CDATA(expectRequestList[stepi])
+                    lxmlET.SubElement(step, 'execution_type').text = lxmlET.CDATA('1')
         kws = lxmlET.SubElement(step_ts_node, 'keywords')
         kwList = sheet.cell_value(i, 6).split("\n")
         for kwi in range(0, len(kwList)):
@@ -107,7 +137,7 @@ def get_excelfile(path):
         return L
 
 if __name__ == '__main__':
-#    path = os.getcwd()  # for windows or pycharm
+    # path = os.getcwd()  # for windows or pycharm
     path = os.path.dirname(sys.executable)  # for mac
     file = get_excelfile(path)
     generate_xml(file[0])

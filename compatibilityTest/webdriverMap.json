@@ -12,8 +12,8 @@
             "65": "/webdriver/windows/chrome/chromedriver2.37.exe",
             "66": "/webdriver/windows/chrome/chromedriver2.37.exe",
             "67": "/webdriver/windows/chrome/chromedriver2.39.exe",
-            "68": "/webdriver/windows/chrome/chromedriver2.41.exe",
-            "69": "/webdriver/windows/chrome/chromedriver2.41.exe",
+            "68": "/webdriver/windows/chrome/chromedriver2.42.exe",
+            "69": "/webdriver/windows/chrome/chromedriver2.42.exe",
             "70": "/webdriver/windows/chrome/chromedriver2.42.exe"
         },
   "winfirefox":
@@ -40,8 +40,8 @@
         "65":"/webdriver/mac/chrome/chromedriver2.37",
         "66":"/webdriver/mac/chrome/chromedriver2.37",
         "67":"/webdriver/mac/chrome/chromedriver2.39",
-        "68":"/webdriver/mac/chrome/chromedriver2.41",
-        "69":"/webdriver/mac/chrome/chromedriver2.41",
+        "68":"/webdriver/mac/chrome/chromedriver2.42",
+        "69":"/webdriver/mac/chrome/chromedriver2.42",
         "70":"/webdriver/mac/chrome/chromedriver2.42"
     },
   "macfirefox":

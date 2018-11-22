@@ -44,14 +44,14 @@ def openBrowser(browserType,version):
                  'profile.default_content_setting_values.geolocation': 1}
         macoption.add_experimental_option('prefs', prefs)
         driver = webdriver.Chrome(executable_path=webdriverPwd, chrome_options=macoption)
-        print(driver.capabilities['version'])
+        printMy(driver.capabilities['version'])
     elif browserType == "macfirefox":
         os.environ["webdriver.Firefox.driver"] = webdriverPwd
         macprofile = webdriver.FirefoxProfile()
         macprofile.set_preference('media.navigator.permission.disabled', True)
         macprofile.update_preferences()
         driver = webdriver.Firefox(executable_path=webdriverPwd, firefox_profile=macprofile)
-        print(driver.capabilities['browserVersion'])
+        printMy(driver.capabilities['browserVersion'])
     elif browserType == "winchrome":
         os.environ["webdriver.Chrome.driver"] = webdriverPwd
         winoption = webdriver.ChromeOptions()
@@ -61,15 +61,18 @@ def openBrowser(browserType,version):
                  'profile.default_content_setting_values.geolocation': 1}
         winoption.add_experimental_option('prefs', prefs)
         driver = webdriver.Chrome(executable_path=webdriverPwd, chrome_options=winoption)
-        print(driver.capabilities['version'])
+        printMy(driver.capabilities['version'])
     elif browserType == "winfirefox":
         os.environ["webdriver.Firefox.driver"] = webdriverPwd
         winprofile = webdriver.FirefoxProfile()
         winprofile.set_preference('media.navigator.permission.disabled', True)
         winprofile.update_preferences()
         driver = webdriver.Firefox(executable_path=webdriverPwd, firefox_profile=winprofile)
-        print(driver.capabilities['browserVersion'])
+        printMy(driver.capabilities['browserVersion'])
     return driver
+
+def printMy(String):
+    print('\033[1;35m%s \033[0m!'%String)
 
 def testCase(browserType,version):
     driver = openBrowser(browserType,version)
@@ -80,8 +83,8 @@ def testCase(browserType,version):
 
 def main(browserType,version):
     if browserType == "macchrome":
-        # uninstall_chrome_on_mac()
-        # install_chrome_on_mac(version)
+        uninstall_chrome_on_mac()
+        install_chrome_on_mac(version)
         testCase(browserType,version)
     elif browserType == "macfirefox":
         uninstall_firefox_on_mac()
@@ -97,8 +100,11 @@ def main(browserType,version):
         testCase(browserType, version)
 
 if __name__ == '__main__':
-    # main("winchrome","66")
-    # main("winchrome","67")
     # main("winchrome","68")
     # main("winchrome","69")
-    main("macchrome","70")
+    # main("winfirefox","63")
+    # main("winfirefox","64")
+    main("macchrome","68")
+    main("macchrome","69")
+    main("macfirefox","63")
+    main("macfirefox","64")

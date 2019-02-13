@@ -1,5 +1,5 @@
 # coding:utf-8
-def calculation(income=16000.0,specialDeduction=5000.0,additionalDeduction=1500.0,fiveRisksAndOneGoldBase=16000,bonusMonth=None,bonus=0.0):
+def calculation(income=16000.0,specialDeduction=5000.0,additionalDeduction=1500.0,fiveRisksAndOneGoldBase=16000,bonusMonth1=None,bonus1=0.0,bonusMonth2=None,bonus2=0.0):
     incomeTotal = 0
     specialDeductionTotal = 0
     additionalDeductionTotal = 0
@@ -10,9 +10,11 @@ def calculation(income=16000.0,specialDeduction=5000.0,additionalDeduction=1500.
     fiveRisksAndOneGold = (0.08+0.02+0.005+0.07)*fiveRisksAndOneGoldBase  # 养老8%,医疗2%，失业0.5%,公积金7%
     for i in range(1,13):
         incomeOld = incomeTotal
-        if bonusMonth or bonus:
-            if i == bonusMonth:
-                incomeTotal = int(incomeTotal+income+bonus)
+        if bonusMonth1 or bonus1 or bonusMonth2 or bonus2:
+            if i == bonusMonth1:
+                incomeTotal = int(incomeTotal+income+bonus1)
+            elif i == bonusMonth2:
+                incomeTotal = int(incomeTotal+income+bonus2)
             else:
                 incomeTotal += income
         else:
@@ -39,6 +41,6 @@ def calculation(income=16000.0,specialDeduction=5000.0,additionalDeduction=1500.
         print("第%s月工资收入%d：缴税%d,五险一金%.f,实发工资%d" % (i, incomeTotal-incomeOld, currentTax, fiveRisksAndOneGold, realIncome))
     print("工资总收入:%d,公积金总收入:%d,总收入:%d" % (realIncomeToal,fiveRisksAndOneGoldBase*0.07*12*2,realIncomeToal+income*0.07*12*2))
 if __name__ == '__main__':
-    calculation(bonusMonth=1,bonus=14595.42)
-    # print("++++++")
-    # calculation(income=5440,fiveRisksAndOneGoldBase=5000)
+    # calculation(bonusMonth1=1,bonus1=14595.42,bonusMonth2=6,bonus2=16000)
+    # calculation(bonusMonth1=1,bonus1=14595.42)
+    calculation(income=5440,fiveRisksAndOneGoldBase=5000)

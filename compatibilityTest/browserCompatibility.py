@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import time
+import time,sys
 from selenium import webdriver
 from installApplication_interface import *
 
@@ -108,3 +108,19 @@ if __name__ == '__main__':
     main("macchrome","69")
     main("macfirefox","63")
     main("macfirefox","64")
+    if len(sys.argv) < 2:
+        print('''run as: python3 browserCompatibility.py '{"macchrome": (10,11,12),"macfirefox": (50,51,52)}'
+               ''')
+        exit(1)
+    jsonStr = sys.argv[1]
+    jsonDict = eval(jsonStr)
+    for key in jsonDict.keys():
+        if isinstance(jsonDict[key], tuple):
+            for version in jsonDict[key]:
+                main(key,version)
+                # print(key,version)
+        elif isinstance(jsonDict[key], int):
+            # print(jsonDict[key])
+            main(key,jsonDict[key])
+        else:
+            print("please send the version of int or tuple")

@@ -58,8 +58,8 @@ if __name__ == '__main__':
                 caseALL += caseNum4
                 runALL += run4
         else:
-            testPlan = sys.argv[1]
-            if tp["name"] == testPlan:
+            testPlan = sys.argv
+            if tp["name"] in testPlan:
                 print(tp["name"])
                 cases = tlc.getTestCasesForTestPlan(tp["id"])
                 caseNum1,run1,notrun1=get_testcasenumber(cases)

@@ -1,6 +1,6 @@
 import testlink,json,sys
-url = 'http://qa.agoralab.co/testlink/lib/api/xmlrpc/v1/xmlrpc.php'
-key = '83301958459ed090e8cf01f4d1832bce'
+url = 'http://**********/testlink/lib/api/xmlrpc/v1/xmlrpc.php'
+key = '8330********01f4d1832bce'
 tlc = testlink.TestlinkAPIClient(url, key)
 # tlc.listProjects()
 

@@ -1,4 +1,4 @@
-import testlink,json
+import testlink,json,sys
 url = 'http://qa.agoralab.co/testlink/lib/api/xmlrpc/v1/xmlrpc.php'
 key = '83301958459ed090e8cf01f4d1832bce'
 tlc = testlink.TestlinkAPIClient(url, key)
@@ -32,28 +32,37 @@ if __name__ == '__main__':
     runALL = 0
     caseALL = 0
     for tp in tps:
-        if tp["name"] == 'Web_Live_H264_mv2.5.1_battest':
-            print(tp["name"])
-            cases = tlc.getTestCasesForTestPlan(tp["id"])
-            caseNum1,run1,notrun1=get_testcasenumber(cases)
-            caseALL += caseNum1
-            runALL += run1
-        elif tp["name"] == 'Web_Live_VP8_mv2.5.1_battest':
-            print(tp["name"])
-            cases = tlc.getTestCasesForTestPlan(tp["id"])
-            caseNum2, run2, notrun2 =get_testcasenumber(cases)
-            caseALL += caseNum2
-            runALL += run2
-        elif tp["name"] == 'Web_RTC_H264_mv2.5.1_battest':
-            print(tp["name"])
-            cases = tlc.getTestCasesForTestPlan(tp["id"])
-            caseNum3, run3, notrun3 =get_testcasenumber(cases)
-            caseALL += caseNum3
-            runALL += run3
-        elif tp["name"] == 'Web_RTC_VP8_mv2.5.1_battest':
-            print(tp["name"])
-            cases = tlc.getTestCasesForTestPlan(tp["id"])
-            caseNum4, run4, notrun4 =get_testcasenumber(cases)
-            caseALL += caseNum4
-            runALL += run4
+        if len(sys.argv) < 2:
+            if tp["name"] == 'Web_Live_H264_mv2.5.1_battest':
+                print(tp["name"])
+                cases = tlc.getTestCasesForTestPlan(tp["id"])
+                caseNum1,run1,notrun1=get_testcasenumber(cases)
+                caseALL += caseNum1
+                runALL += run1
+            elif tp["name"] == 'Web_Live_VP8_mv2.5.1_battest':
+                print(tp["name"])
+                cases = tlc.getTestCasesForTestPlan(tp["id"])
+                caseNum2, run2, notrun2 =get_testcasenumber(cases)
+                caseALL += caseNum2
+                runALL += run2
+            elif tp["name"] == 'Web_RTC_H264_mv2.5.1_battest':
+                print(tp["name"])
+                cases = tlc.getTestCasesForTestPlan(tp["id"])
+                caseNum3, run3, notrun3 =get_testcasenumber(cases)
+                caseALL += caseNum3
+                runALL += run3
+            elif tp["name"] == 'Web_RTC_VP8_mv2.5.1_battest':
+                print(tp["name"])
+                cases = tlc.getTestCasesForTestPlan(tp["id"])
+                caseNum4, run4, notrun4 =get_testcasenumber(cases)
+                caseALL += caseNum4
+                runALL += run4
+        else:
+            testPlan = sys.argv[1]
+            if tp["name"] == testPlan:
+                print(tp["name"])
+                cases = tlc.getTestCasesForTestPlan(tp["id"])
+                caseNum1,run1,notrun1=get_testcasenumber(cases)
+                caseALL += caseNum1
+                runALL += run1
     print('\033[1;35m  caseAll:%d, run:%d, rate:%0.2f \033[0m'%(caseALL, runALL, runALL / caseALL))

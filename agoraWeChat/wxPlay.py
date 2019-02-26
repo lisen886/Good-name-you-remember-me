@@ -7,7 +7,7 @@ from agoraWeChat.setup_ffprobe import FrameStat
 # 为线程定义一个函数
 def wx_Play(inputChannelName, uid):
     base64Name = (str(base64.b64encode(inputChannelName.encode('utf-8')), 'utf-8'))
-    url = "rtmp://test.mini-app.broadcastapp.agoraio.cn/live/f4637604af81440596a54254d53ade20_"+base64Name+"_"+uid
+    url = "rtmp://*****************/live/f4637604*****************4254d53ade20_"+base64Name+"_"+uid
     stat = FrameStat()
     stat.stat_frame(url, 100)
     audio = stat.audio_stat.get_stat_result()

@@ -10,10 +10,10 @@ import requests
 import json
 
 def getPublishUrl(cname):
-    postURL = "http://115.239.228.77:4001/v1/miniapp"
+    postURL = "http://***********:4001/v1/miniapp"
     request = requests.session()
     joinParams = {
-        "appId": "aab8b8f5a8cd4469a63042fcfafe7063",
+        "appId": "*******************",
         "cname": str(cname),
         "uid": "123456",
         "sdkVersion": "2.3.1",
@@ -23,9 +23,9 @@ def getPublishUrl(cname):
         "requestId": 1,
         "clientRequest": {
             "action": "join",
-            "appId": "aab8b8f5a8cd4469a63042fcfafe7063",
-            "key_vocs": "aab8b8f5a8cd4469a63042fcfafe7063",
-            "key_vos": "aab8b8f5a8cd4469a63042fcfafe7063",
+            "appId": "*************",
+            "key_vocs": "***************",
+            "key_vos": "*****************",
             "channel_name": str(cname),
             "uid": "123456"
         }
@@ -35,7 +35,7 @@ def getPublishUrl(cname):
     # print(joinData["code"])
     if joinData["code"] == 200:
         pubParam = {
-            "appId": "aab8b8f5a8cd4469a63042fcfafe7063",
+            "appId": "*****************",
             "cname": str(cname),
             "uid": "123456",
             "sdkVersion": "2.3.1",
@@ -53,10 +53,10 @@ def getPublishUrl(cname):
         return (pubData["serverResponse"]["url"])
 
 def postLeave(cname):
-    postURL = "http://115.239.228.77:4001/v1/miniapp"
+    postURL = "http://*****************:4001/v1/miniapp"
     request = requests.session()
     leaveParam = {
-        "appId": "aab8b8f5a8cd4469a63042fcfafe7063",
+        "appId": "*****************",
         "cname": str(cname),
         "uid": "123456",
         "sdkVersion": "2.3.1",
@@ -101,8 +101,8 @@ def wx_publish_Success(num):
             desired_caps = {}
             desired_caps['appium-version'] = '1.0'
             desired_caps['platformName'] = 'Android'
-            desired_caps['deviceName'] = 'A5RNW17C14004071'
-            desired_caps['appPackage'] = 'io.agora.premium'
+            desired_caps['deviceName'] = '*****************'
+            desired_caps['appPackage'] = 'io.*****.premium'
             desired_caps['appActivity'] = '.ui.MainActivity'
             driver = webdriver.Remote('http://0.0.0.0:4723/wd/hub', desired_caps)
             try:

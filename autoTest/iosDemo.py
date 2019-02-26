@@ -8,8 +8,8 @@ desired_caps['automationName'] = 'XCUITest'
 desired_caps['platformName'] = 'iOS'
 desired_caps['platformVersion'] = '11.2.2'
 desired_caps['deviceName'] = 'iPadmini4'
-desired_caps['bundleId'] = 'io.agora.AgoraPremium'
-desired_caps['udid'] = '162e308fc1a5cedd2dd13891ab78effe257ebebd'
+desired_caps['bundleId'] = 'io.*****************.A*****************Premium'
+desired_caps['udid'] = '162e308fc1a*****************ab78effe257ebebd'
 desired_caps['newCommandTimeout'] = 3600
 
 driver = webdriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)

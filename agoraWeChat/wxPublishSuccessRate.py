@@ -18,8 +18,8 @@ def wx_publish_Success(num):
         inputChannelName = "slRejoinTest" + str(i)
         print (inputChannelName)
         base64Name = (str(base64.b64encode(inputChannelName)))
-        cmd ="ffmpeg -re -stream_loop -1 -i "+mp4cwd+" -c copy -f flv rtmp://test.mini-app.broadcastapp.agoraio.cn/live/" \
-             "f4637604af81440596a54254d53ade20_"+base64Name+"_12345678"
+        cmd ="ffmpeg -re -stream_loop -1 -i "+mp4cwd+" -c copy -f flv rtmp://*****************.cn/live/" \
+             "f4637604a*****************3ade20_"+base64Name+"_12345678"
         # 只推视频  -c copy -an -f flv
         # cmd ="ffmpeg -re -stream_loop -1 -i "+mp4cwd+" -c copy -an -f flv rtmp://test.mini-app.broadcastapp.agoraio.cn/live/" \
         #      "f4637604af81440596a54254d53ade20_"+base64Name+"_12345678"
@@ -31,7 +31,7 @@ def wx_publish_Success(num):
         desired_caps['appium-version'] = '1.0'
         desired_caps['platformName'] = 'Android'
         desired_caps['deviceName'] = 'bdf2115'
-        desired_caps['appPackage'] = 'io.agora.premium'
+        desired_caps['appPackage'] = 'io.*****************.premium'
         desired_caps['appActivity'] = '.ui.MainActivity'
         driver = webdriver.Remote('http://0.0.0.0:4723/wd/hub', desired_caps)
         els = driver.find_elements_by_class_name('android.widget.Button')

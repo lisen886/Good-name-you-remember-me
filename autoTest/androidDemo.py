@@ -5,7 +5,7 @@ desired_caps = {}
 desired_caps['appium-version'] = '1.0'
 desired_caps['platformName'] = 'Android'
 desired_caps['deviceName'] = 'e2109991'
-desired_caps['appPackage'] = 'io.agora.premium'
+desired_caps['appPackage'] = 'io.*****************.premium'
 desired_caps['appActivity'] = '.ui.MainActivity'
 driver = webdriver.Remote('http://0.0.0.0:4723/wd/hub', desired_caps)
 def clickPermission():

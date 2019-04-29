@@ -13,3 +13,4 @@
 - UI自动化测试框架
 - excel2xml导入testlink
 - macBrowserCPUMEM自动获取
+- TestLink自动获取测试计划的进度，自动标记测试结果

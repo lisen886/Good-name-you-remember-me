@@ -104,6 +104,26 @@ Mac CPU 内存自动获取
     	# chrome:GPUpid Capturepid premiumpid
         # safari:safariProcesspid premiumpid
 	```
+## TestLink Operate
+TestLink 测试计划进度自动获取
+* 使用说明：
+	- 下载[code](https://github.com/lisen886/Good-name-you-remember-me/blob/master/autoTest/countTestPlan.py)
+	- 执行脚本
+	``` bash
+	python3 countTestPlan.py testPlanName
+	```
+TestLink Case执行结果自动标记Pass fail block
+* 使用说明：
+	- 下载[code](https://github.com/lisen886/Good-name-you-remember-me/blob/master/autoTest/testLinkAPI.py)
+	- 执行脚本
+	``` bash
+	python3 testLinkAPI.py test_plan_name platformName testResult *testCaseID
+          test_plan_name: "Web_Live_H264_mv2.5.1_battest"
+          platformName: "Chrome on Mac"
+          testResult: "p" or "f"
+          *testCaseID: "Live-001" "Live-002"
+    eg:python3 autoTest/testLinkAPI.py "Web_Live_H264_mv2.5.1_battest" "Chrome on Mac" "p" "Live-882" "Live-883"
+	```
 
 ## weChatLiveStreaming
 微信小程序直播推流

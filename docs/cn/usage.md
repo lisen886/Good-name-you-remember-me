@@ -104,6 +104,7 @@ Mac CPU 内存自动获取
     	# chrome:GPUpid Capturepid premiumpid
         # safari:safariProcesspid premiumpid
 	```
+
 ## TestLink Operate
 TestLink 测试计划进度自动获取
 * 使用说明：

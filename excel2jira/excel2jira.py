@@ -284,6 +284,36 @@ class jiraApi():
         else:
             print("please input list")
 
+    def getTestPlanResult(self,testPlanKey):
+        url = "https://" + self.domainName + "/rest/raven/1.0/testruns?testPlanKey=" + testPlanKey
+        try:
+            response = requests.get(url, headers=self.headers, auth=self.auth).json()
+            return response
+        except:
+            print("get testplan result fail")
+
+    def getTestPlanProgress(self,testPlanKey):
+        reslist = self.getTestPlanResult(testPlanKey)
+        count = 0
+        passCount = 0
+        failCount = 0
+        todoCount = 0
+        for res in reslist:
+            status = res.get("status")
+            if status != "TODO":
+                count += 1
+                if status == "PASS":
+                    passCount += 1
+                elif status == "FAIL":
+                    failCount += 1
+            elif status == "TODO":
+                todoCount += 1
+        rate = count / len(reslist)
+        passRate = passCount / len(reslist)
+        failRate = failCount / len(reslist)
+        todoRate = todoCount / len (reslist)
+        print("caseTotal:%d,execRate:%.2f,passRate:%.2f,failRate:%.2f,todoRate::%.2f" % (len(reslist),rate,passRate,failRate,todoRate))
+
 class ProgressBar:
     def __init__(self, count = 0, total = 0, width = 50):
         self.count = count

@@ -291,28 +291,30 @@ class jiraApi():
             return response
         except:
             print("get testplan result fail")
+            return False
 
     def getTestPlanProgress(self,testPlanKey):
         reslist = self.getTestPlanResult(testPlanKey)
-        count = 0
-        passCount = 0
-        failCount = 0
-        todoCount = 0
-        for res in reslist:
-            status = res.get("status")
-            if status != "TODO":
-                count += 1
-                if status == "PASS":
-                    passCount += 1
-                elif status == "FAIL":
-                    failCount += 1
-            elif status == "TODO":
-                todoCount += 1
-        rate = count / len(reslist)
-        passRate = passCount / len(reslist)
-        failRate = failCount / len(reslist)
-        todoRate = todoCount / len (reslist)
-        print("caseTotal:%d,execRate:%.2f,passRate:%.2f,failRate:%.2f,todoRate::%.2f" % (len(reslist),rate,passRate,failRate,todoRate))
+        if reslist:
+            count = 0
+            passCount = 0
+            failCount = 0
+            todoCount = 0
+            for res in reslist:
+                status = res.get("status")
+                if status != "TODO":
+                    count += 1
+                    if status == "PASS":
+                        passCount += 1
+                    elif status == "FAIL":
+                        failCount += 1
+                elif status == "TODO":
+                    todoCount += 1
+            rate = count / len(reslist)
+            passRate = passCount / len(reslist)
+            failRate = failCount / len(reslist)
+            todoRate = todoCount / len (reslist)
+            print("caseTotal:%d,execRate:%.2f,passRate:%.2f,failRate:%.2f,todoRate::%.2f" % (len(reslist),rate,passRate,failRate,todoRate))
 
 class ProgressBar:
     def __init__(self, count = 0, total = 0, width = 50):

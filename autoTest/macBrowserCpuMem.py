@@ -1,9 +1,12 @@
 import psutil,time,sys,logging,os
+from pyecharts import Line
 
 logName = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
 logger = logging.getLogger(__name__)
 logger.setLevel(level = logging.INFO)
 path = os.getcwd()+"/"+logName+".txt"
+htmlPath = os.getcwd()+"/"+logName+"_cpu.html"
+htmlPath2 = os.getcwd()+"/"+logName+"_mem.html"
 handler = logging.FileHandler(path)
 handler.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -12,6 +15,8 @@ console = logging.StreamHandler()
 console.setLevel(logging.INFO)
 logger.addHandler(handler)
 logger.addHandler(console)
+CPUList = []
+MEMList = []
 
 def getCPU(GPUpid,Capturepid,premiumpid):
     GPUp = psutil.Process(GPUpid)
@@ -104,6 +109,9 @@ def getChromeCPUMEM(secs,frequency,GPUpid, Capturepid, premiumpid):
         GPUMEMTotal += GPUMEM
         CaptureMEMTotal += CaptureMEM
         premiumMEMTotal += premiumMEM
+        ctime = time.strftime('%H:%M:%S', time.localtime())
+        CPUList.append({"time":ctime,"cpu":{"GPUCPU":int(GPUCPU),"CaptureCPU":int(CaptureCPU),"premiumCPU":int(premiumCPU)}})
+        MEMList.append({"time":ctime,"mem":{"GPUMEM":int(GPUMEM),"CaptureMEM":int(CaptureMEM),"premiumMEM":int(premiumMEM)}})
     logger.info("GPUCPU平均值为：%.2f"%(GPUCPUTotal/frequency))
     logger.info("CaptureCPU平均值为：%.2f"%(CaptureCPUTotal/frequency))
     logger.info("premiumCPU平均值为：%.2f"%(premiumCPUTotal/frequency))
@@ -133,6 +141,11 @@ def getSafariCPUMEM(secs,frequency,safariProcesspid,premiumpid):
         premiumCPUTotal += premiumCPU
         safariProcessMEMTotal += safariProcessMEM
         premiumMEMTotal += premiumMEM
+        ctime = time.strftime('%H:%M:%S', time.localtime())
+        CPUList.append(
+            {"time": ctime, "cpu": {"safariProcessCPU": int(safariProcessCPU), "premiumCPU": int(premiumCPU)}})
+        MEMList.append(
+            {"time": ctime, "mem": {"safariProcessMEM": int(safariProcessMEM), "premiumMEM": int(premiumMEM)}})
 
     logger.info("safariProcessCPU平均值为：%.2f"%(safariProcessCPUTotal/frequency))
     logger.info("premiumCPU平均值为：%.2f"%(premiumCPUTotal/frequency))
@@ -140,6 +153,84 @@ def getSafariCPUMEM(secs,frequency,safariProcesspid,premiumpid):
     logger.info("premium内存平均值为：%.2f"%(premiumMEMTotal/frequency))
     logger.info("****************cpu平均值为：%.2f****************" % (cpuTotal / frequency))
     logger.info("****************内存平均值为：%.2f****************" % (memTotal / frequency))
+
+def showHtml(browser):
+    # encoding:utf-8
+    '''
+     add(
+        name,x_axis,y_axis,
+        is_symbol_show = True,
+        is_smooth = False,
+        is_stack = False,
+        is_step = False,
+        is_fill = False,**kwargs
+        mark_point_textcolor = 'white'  #选标记颜色
+        mark_point_symbol ='diamond','arrow' #选标记形状
+        mark_point_symbolsize = 30
+        )
+    以下为属性默认值：
+        is_symbol_show = True,      #是否显示标记图形
+        is_smooth = False,          #是否显示平滑曲线
+        is_stack = False,           #是否数据堆叠
+        is_step = False,            #是否是阶梯线
+        is_fill = False,**kwargs    #是否填充曲线区域面积
+    '''
+    x_value = []
+    x_value_mem = []
+
+    GPUCPU = []
+    CaptureCPU = []
+    premiumCPU = []
+    safariProcessCPU = []
+
+    GPUMEM = []
+    CaptureMEM = []
+    premiumMEM = []
+    safariProcessMEM = []
+    line = Line('CPU')  # 创建实例
+    line2 = Line('内存')  # 创建实例
+
+    if browser == "chrome":
+        for cpuinfo in CPUList:
+            x_value.append(cpuinfo.get("time"))
+            GPUCPU.append(cpuinfo["cpu"]["GPUCPU"])
+            CaptureCPU.append(cpuinfo["cpu"]["CaptureCPU"])
+            premiumCPU.append(cpuinfo["cpu"]["premiumCPU"])
+            line.add('GPUCPU', x_value, GPUCPU, is_more_utils=True, mark_point=['average', 'min', 'max'])
+            line.add('CaptureCPU', x_value, CaptureCPU, mark_point=['average', 'min', 'max'])  # mark_line ['average', 'min', 'max']标记数据B的最小/最大值
+            line.add('premiumCPU', x_value, premiumCPU, mark_point=['average', 'min', 'max'])
+            '''
+            如果需要横向并列图 可在最后的add括号中添加 (---snip---,is_convert = True) 表示X 轴与 Y 轴交换
+            line.show_config()  # 调试输出pyecharts的js配置信息
+            '''
+        for meminfo in MEMList:
+            x_value_mem.append(meminfo["time"])
+            GPUMEM.append(meminfo["mem"]["GPUMEM"])
+            CaptureMEM.append(meminfo["mem"]["CaptureMEM"])
+            premiumMEM.append(meminfo["mem"]["premiumMEM"])
+            line2.add('GPUMEM', x_value_mem, GPUMEM, is_more_utils=True, mark_point=['average', 'min', 'max'])
+            line2.add('CaptureMEM', x_value_mem, CaptureMEM, mark_point=['average', 'min', 'max'])
+            line2.add('premiumMEM', x_value_mem, premiumMEM, mark_point=['average', 'min', 'max'])
+
+    elif browser == "safari":
+        for cpuinfo in CPUList:
+            x_value.append(cpuinfo.get("time"))
+            safariProcessCPU.append(cpuinfo["cpu"]["safariProcessCPU"])
+            premiumCPU.append(cpuinfo["cpu"]["premiumCPU"])
+
+            line.add('safariProcessCPU', x_value, safariProcessCPU, is_more_utils=True, mark_point=['average', 'min', 'max'])
+            line.add('premiumCPU', x_value, premiumCPU, mark_point=['average', 'min', 'max'])
+        for meminfo in MEMList:
+            x_value_mem.append(meminfo["time"])
+            safariProcessMEM.append(meminfo["mem"]["safariProcessMEM"])
+            premiumMEM.append(meminfo["mem"]["premiumMEM"])
+            line2.add('safariProcessMEM', x_value_mem, safariProcessMEM, is_more_utils=True, mark_point=['average', 'min', 'max'])
+            line2.add('premiumMEM', x_value_mem, premiumMEM, mark_point=['average', 'min', 'max'])  # mark_line 标记数据B的最小/最大值
+
+    else:
+        print("无法生成折线图")
+    line.render(htmlPath)
+    line2.render(htmlPath2)
 
 if __name__ == '__main__':
     if len(sys.argv) < 5:
@@ -167,3 +258,4 @@ if __name__ == '__main__':
         safariProcesspid = int(sys.argv[4])
         premiumpid = int(sys.argv[5])
         getSafariCPUMEM(secs, frequency, safariProcesspid, premiumpid)
+    showHtml(browserType)
